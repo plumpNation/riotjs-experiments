@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports) {
 
-	console.log('boom');
+	console.log('another change');
 
 
 /***/ }

@@ -1,4 +1,4 @@
-.PHONY : all help build
+.PHONY : all help build watch
 
 all:
 	echo "Hello, nothing to do by default"
@@ -11,3 +11,7 @@ help:
 # target: build - Bundle your application
 build:
 	webpack src/app.js build/app.bundle.js
+
+# target: watch - Run build on file change
+watch:
+	./bin/watch
