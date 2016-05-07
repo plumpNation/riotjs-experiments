@@ -1,0 +1,15 @@
+{
+  "name": "riotjs-experiments",
+  "version": "1.0.0",
+  "description": "Playing with a new toy",
+  "main": "index.js",
+  "dependencies": {
+    "riot": "^2.3.18"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gavin King <plumpnation@gmail.com>",
+  "license": "MIT"
+}
