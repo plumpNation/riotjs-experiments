@@ -6,10 +6,18 @@
   "dependencies": {
     "riot": "^2.3.18"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plumpNation/riotjs-experiments.git"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Gavin King <plumpnation@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/plumpNation/riotjs-experiments/issues"
+  },
+  "homepage": "https://github.com/plumpNation/riotjs-experiments#readme"
 }
