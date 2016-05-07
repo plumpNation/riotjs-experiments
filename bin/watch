@@ -2,5 +2,6 @@
 
 while true; do
     inotifywait -e modify -r ./src/app.js && \
+    echo "change detected in app.js" && \
     make build
 done
