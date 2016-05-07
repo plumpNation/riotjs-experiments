@@ -1,7 +1,7 @@
 #! /bin/bash
 
 while true; do
-    inotifywait -e modify -r ./src/app.js && \
+    inotifywait -e modify -r ./src/ && \
     echo "change detected in app.js" && \
     make build
 done

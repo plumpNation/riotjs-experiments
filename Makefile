@@ -10,7 +10,7 @@ help:
 
 # target: build - Bundle your application
 build:
-	webpack src/app.js build/app.bundle.js
+	node_modules/.bin/riot src/components src/components.js
 
 # target: watch - Run build on file change
 watch:

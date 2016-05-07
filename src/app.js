@@ -1,1 +1,2 @@
-console.log('another  woop change');
+// mount all custom tags on the page
+riot.mount('*');
