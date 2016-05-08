@@ -18,21 +18,22 @@
     <script>
         'use strict';
 
-        var InsultStore   = require('../stores/insult-store'),
-            InsultActions = require('../actions/insult-actions'),
+        var InsultStore = require('../stores/insult-store'),
 
-            update = () => {
-                this.insult = InsultStore.getState().insult;
+            setState = (state) => {
+                debugger;
+
+                this.insult = state.insult;
                 this.update();
             };
 
-        this.on('mount', () => {
-            InsultStore.listen(update);
+        this.insult = '';
 
-            InsultActions.fetchInsult();
+        this.on('mount', () => {
+            InsultStore.listen(setState)
         });
 
-        this.on('unmount', () => InsultStore.unlisten(update));
+        this.on('unmount', () => InsultStore.unlisten(setState));
     </script>
 
 </insult>

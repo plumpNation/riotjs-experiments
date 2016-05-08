@@ -12,7 +12,8 @@ help:
 build:
 	npm run build && \
 	webpack src/app.js build/app.bundle.js && \
-	webpack src/components/components.js build/components.bundle.js
+	webpack src/components/components.js build/components.bundle.js && \
+	node_modules/.bin/babel build -d build
 
 # target: watch - Run build on file change
 watch:

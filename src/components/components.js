@@ -1,19 +1,20 @@
 riot.tag2('insult', '<article class="insult-container"> <h3>{insult}</h3> </article>', 'insult,[riot-tag="insult"],[data-is="insult"]{ display: block; } insult h3,[riot-tag="insult"] h3,[data-is="insult"] h3{ color: red; }', '', function(opts) {
         'use strict';
 
-        var InsultStore   = require('../stores/insult-store'),
-            InsultActions = require('../actions/insult-actions'),
+        var InsultStore = require('../stores/insult-store'),
 
-            update = () => {
-                this.insult = InsultStore.getState().insult;
+            setState = (state) => {
+                debugger;
+
+                this.insult = state.insult;
                 this.update();
             };
 
-        this.on('mount', () => {
-            InsultStore.listen(update);
+        this.insult = '';
 
-            InsultActions.fetchInsult();
+        this.on('mount', () => {
+            InsultStore.listen(setState)
         });
 
-        this.on('unmount', () => InsultStore.unlisten(update));
+        this.on('unmount', () => InsultStore.unlisten(setState));
 });

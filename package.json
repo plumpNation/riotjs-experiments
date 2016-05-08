@@ -17,7 +17,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src -d src -x '.es6' && riot src/components src/components/components.js"
+    "build": "riot src/components src/components/components.js"
   },
   "author": "Gavin King <plumpnation@gmail.com>",
   "license": "MIT",
