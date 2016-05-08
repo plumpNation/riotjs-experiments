@@ -1,7 +1,7 @@
 <insult>
 
     <!-- layout -->
-    <article class="insult-container">
+    <article if="{ insult }" class="insult-container">
         <h3>{ insult }</h3>
     </article>
 
@@ -21,8 +21,6 @@
         var InsultStore = require('../stores/insult-store'),
 
             setState = (state) => {
-                debugger;
-
                 this.insult = state.insult;
                 this.update();
             };
@@ -30,7 +28,7 @@
         this.insult = '';
 
         this.on('mount', () => {
-            InsultStore.listen(setState)
+            InsultStore.listen(setState);
         });
 
         this.on('unmount', () => InsultStore.unlisten(setState));

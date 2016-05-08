@@ -6,63 +6,27 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck2(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/******/(function (modules) {
-	// webpackBootstrap
-	/******/ // The module cache
-	/******/var installedModules = {};
-
-	/******/ // The require function
-	/******/function __webpack_require__(moduleId) {
-
-		/******/ // Check if module is in cache
-		/******/if (installedModules[moduleId])
-			/******/return installedModules[moduleId].exports;
-
-		/******/ // Create a new module (and put it into the cache)
-		/******/var module = installedModules[moduleId] = {
-			/******/exports: {},
-			/******/id: moduleId,
-			/******/loaded: false
-			/******/ };
-
-		/******/ // Execute the module function
-		/******/modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
-		/******/ // Flag the module as loaded
-		/******/module.loaded = true;
-
-		/******/ // Return the exports of the module
-		/******/return module.exports;
-		/******/
-	}
-
-	/******/ // expose the modules object (__webpack_modules__)
-	/******/__webpack_require__.m = modules;
-
-	/******/ // expose the module cache
-	/******/__webpack_require__.c = installedModules;
-
-	/******/ // __webpack_public_path__
-	/******/__webpack_require__.p = "";
-
-	/******/ // Load entry module and return exports
-	/******/return __webpack_require__(0);
-	/******/
-})(
-/************************************************************************/
-/******/[
+webpackJsonp([1, 2], [
 /* 0 */
 /***/function (module, exports, __webpack_require__) {
 
-	riot.tag2('insult', '<article class="insult-container"> <h3>{insult}</h3> </article>', 'insult,[riot-tag="insult"],[data-is="insult"]{ display: block; } insult h3,[riot-tag="insult"] h3,[data-is="insult"] h3{ color: red; }', '', function (opts) {
+	riot.tag2('app', '<insult></insult> <button onclick="{this.handleClick}">Insult me</button>', '', '', function (opts) {
+		var InsultActions = __webpack_require__(1);
+
+		InsultActions.fetchInsult();
+
+		this.handleClick = function () {
+			return InsultActions.fetchInsult();
+		};
+	});
+
+	riot.tag2('insult', '<article if="{insult}" class="insult-container"> <h3>{insult}</h3> </article>', 'insult,[riot-tag="insult"],[data-is="insult"]{ display: block; } insult h3,[riot-tag="insult"] h3,[data-is="insult"] h3{ color: red; }', '', function (opts) {
 		'use strict';
 
 		var _this5 = this;
 
-		var InsultStore = __webpack_require__(1),
+		var InsultStore = __webpack_require__(18),
 		    setState = function setState(state) {
-			debugger;
-
 			_this5.insult = state.insult;
 			_this5.update();
 		};
@@ -84,44 +48,44 @@ function _classCallCheck2(instance, Constructor) { if (!(instance instanceof Con
 /***/function (module, exports, __webpack_require__) {
 
 	var alt = __webpack_require__(2),
-	    InsultActions = __webpack_require__(17);
+	    InsultSource = __webpack_require__(17);
 
-	var InsultStore = function () {
-		function InsultStore() {
-			_classCallCheck2(this, InsultStore);
-
-			this.insult = null;
-			this.error = null;
-
-			this.bindListeners({
-				handleUpdateInsult: InsultActions.UPDATE_INSULT,
-				handleFetchInsult: InsultActions.FETCH_INSULT,
-				handleInsultFailed: InsultActions.INSULT_FAILED
-			});
+	var InsultActions = function () {
+		function InsultActions() {
+			_classCallCheck2(this, InsultActions);
 		}
 
-		_createClass(InsultStore, [{
-			key: 'handleUpdateInsult',
-			value: function handleUpdateInsult(insult) {
-				this.insult = insult;
-				this.error = null;
+		_createClass(InsultActions, [{
+			key: 'updateInsult',
+			value: function updateInsult(insult) {
+				return insult;
 			}
 		}, {
-			key: 'handleFetchInsult',
-			value: function handleFetchInsult() {
-				this.insult = null;
+			key: 'insultFailed',
+			value: function insultFailed(error) {
+				return error;
 			}
 		}, {
-			key: 'handleInsultFailed',
-			value: function handleInsultFailed(error) {
-				this.error = error;
+			key: 'fetchInsult',
+			value: function fetchInsult() {
+				var _this6 = this;
+
+				return function (dispatch) {
+					dispatch();
+
+					InsultSource.fetch().then(function (insult) {
+						_this6.updateInsult(insult);
+					}).catch(function (error) {
+						_this6.insultFailed(error);
+					});
+				};
 			}
 		}]);
 
-		return InsultStore;
+		return InsultActions;
 	}();
 
-	module.exports = alt.createStore(InsultStore, 'InsultStore');
+	module.exports = alt.createActions(InsultActions);
 
 	/***/
 },
@@ -815,6 +779,9 @@ function _classCallCheck2(instance, Constructor) { if (!(instance instanceof Con
 	var queueIndex = -1;
 
 	function cleanUpNextTick() {
+		if (!draining || !currentQueue) {
+			return;
+		}
 		draining = false;
 		if (currentQueue.length) {
 			queue = currentQueue.concat(queue);
@@ -2059,54 +2026,9 @@ function _classCallCheck2(instance, Constructor) { if (!(instance instanceof Con
 	/***/
 },
 /* 17 */
-/***/function (module, exports, __webpack_require__) {
-
-	var alt = __webpack_require__(2),
-	    InsultSource = __webpack_require__(18);
-
-	var InsultActions = function () {
-		function InsultActions() {
-			_classCallCheck2(this, InsultActions);
-		}
-
-		_createClass(InsultActions, [{
-			key: 'updateInsult',
-			value: function updateInsult(insult) {
-				return insult;
-			}
-		}, {
-			key: 'insultFailed',
-			value: function insultFailed(error) {
-				return error;
-			}
-		}, {
-			key: 'fetchInsult',
-			value: function fetchInsult() {
-				var _this6 = this;
-
-				return function (dispatch) {
-					dispatch();
-
-					InsultSource.fetch().then(function (insult) {
-						_this6.updateInsult(insult);
-					}).catch(function (error) {
-						_this6.insultFailed(error);
-					});
-				};
-			}
-		}]);
-
-		return InsultActions;
-	}();
-
-	module.exports = alt.createActions(InsultActions);
-
-	/***/
-},
-/* 18 */
 /***/function (module, exports) {
 
-	var insults = ['Fuck you', 'My balls your mouth', 'Jizzmop', 'Shithead', 'Tardjar', 'You\'ll never be the man your mother is', 'You must have been born on a highway, because that\'s where most accidents happen.', 'You\'re a failed abortion whose birth certificate is an ' + 'apology from the condom factory.', 'It looks like your face caught on fire and someone tried to put it out with a fork.', 'Your family tree is a cactus, because everybody on it is a prick.', 'You\'re so ugly Hello Kitty said goodbye to you.', 'You are so ugly that when your mama dropped you off at school ' + 'she got a fine for littering.', 'If you were twice as smart, you\'d still be stupid.', 'Do you have to leave so soon? I was just about to poison the tea.', 'You\'re so ugly when you popped out the doctor said aww what ' + 'a treasure and your mom said yeah lets bury it', 'Yeah, you\'re pretty. Pretty ugly.', 'Do you know how long it takes for your mother to take a crap? Nine months.', 'Out of 100,000 sperm, you were the fastest?', 'I would ask how old you are, but I know you can\'t count that high.', 'Hey, you have something on your chin...3rd one down.'],
+	var insults = ['Fuck you', 'My balls your mouth', 'Jizzmop', 'Shithead', 'Tardjar', 'You\'ll never be the man your mother is', 'You must have been born on a highway, because that\'s where most accidents happen.', 'You\'re a failed abortion whose birth certificate is an ' + 'apology from the condom factory.', 'It looks like your face caught on fire and someone tried to put it out with a fork.', 'Your family tree is a cactus, because everybody on it is a prick.', 'You\'re so ugly Hello Kitty said goodbye to you.', 'You are so ugly that when your mama dropped you off at school ' + 'she got a fine for littering.', 'If you were twice as smart, you\'d still be stupid.', 'Do you have to leave so soon? I was just about to poison the tea.', 'You\'re so ugly when you popped out the doctor said aww what ' + 'a treasure and your mom said yeah lets bury it', 'Yeah, you\'re pretty. Pretty ugly.', 'Do you know how long it takes for your mother to take a crap? Nine months.', 'Out of 100,000 sperm, you were the fastest?', 'I would ask how old you are, but I know you can\'t count that high.', 'Hey, you have something on your chin...3rd one down.', 'If you want a good comeback you should go lick your mums face', 'So, a thought crossed your mind? Must have been a long and lonely journey', 'How did you get here? Did someone leave your cage open?', 'If I were a dog and you were a flower I\'d lift up my leg and give you a shower', 'Better at sex than anyone? Now all you need is a partner', 'I\'d like to see things from your point of view, too bad, ' + 'I can\'t shove my head that far arse..', 'You must have been born on a highway because that\'s where most accidents happen', 'I\'d slap you, but that would be animal abuse', 'It\'s scary to think that people like you are allowed to vote', 'Learn from your parents mistakes, use birth control', 'The smartest thing that ever came out your mouth was a penis', 'Don\'t let your mind wander, it\'s far too small to be out by itself', 'I called your boyfriend gay and he hit me with his purse', 'Earth is full. Go home.', 'Why don\'t you go play in traffic?', 'So you\'ve changed your mind? Does this one work any better?', 'Nice outfit. Go stand on a street corner, you could make some money', 'Your legs are like tescos. Open 24/7', 'You\'d better hide, the garbage collecter is coming', 'I\'m busy now, can I ignore you another time?'],
 	    getRandomInsult = function getRandomInsult() {
 		return insults[Math.round(Math.random() * (insults.length - 1))];
 	},
@@ -2123,5 +2045,49 @@ function _classCallCheck2(instance, Constructor) { if (!(instance instanceof Con
 	module.exports = InsultSource;
 
 	/***/
-}
-/******/]);
+},
+/* 18 */
+/***/function (module, exports, __webpack_require__) {
+
+	var alt = __webpack_require__(2),
+	    InsultActions = __webpack_require__(1);
+
+	var InsultStore = function () {
+		function InsultStore() {
+			_classCallCheck2(this, InsultStore);
+
+			this.insult = null;
+			this.error = null;
+
+			this.bindListeners({
+				handleUpdateInsult: InsultActions.UPDATE_INSULT,
+				handleFetchInsult: InsultActions.FETCH_INSULT,
+				handleInsultFailed: InsultActions.INSULT_FAILED
+			});
+		}
+
+		_createClass(InsultStore, [{
+			key: 'handleUpdateInsult',
+			value: function handleUpdateInsult(insult) {
+				this.insult = insult;
+				this.error = null;
+			}
+		}, {
+			key: 'handleFetchInsult',
+			value: function handleFetchInsult() {
+				this.insult = null;
+			}
+		}, {
+			key: 'handleInsultFailed',
+			value: function handleInsultFailed(error) {
+				this.error = error;
+			}
+		}]);
+
+		return InsultStore;
+	}();
+
+	module.exports = alt.createStore(InsultStore, 'InsultStore');
+
+	/***/
+}]);

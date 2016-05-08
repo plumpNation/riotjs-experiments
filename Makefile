@@ -10,10 +10,11 @@ help:
 
 # target: build - Bundle your application
 build:
-	npm run build && \
-	webpack src/app.js build/app.bundle.js && \
-	webpack src/components/components.js build/components.bundle.js && \
-	node_modules/.bin/babel build -d build
+	rm -rf build && \
+	node_modules/.bin/riot src/components src/components/components.bundle.js && \
+	webpack && \
+	node_modules/.bin/babel build -d build && \
+	rm src/components/components.bundle.js
 
 # target: watch - Run build on file change
 watch:
