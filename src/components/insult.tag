@@ -1,7 +1,7 @@
 <insult>
 
     <!-- layout -->
-    <article class="">
+    <article class="insult-container">
         <h3>{ insult }</h3>
     </article>
 
@@ -18,9 +18,21 @@
     <script>
         'use strict';
 
-        var InsultStore = require('../stores/insult-store');
+        var InsultStore   = require('../stores/insult-store'),
+            InsultActions = require('../actions/insult-actions'),
 
-        this.insult = InsultStore.getState().insult;
+            update = () => {
+                this.insult = InsultStore.getState().insult;
+                this.update();
+            };
+
+        this.on('mount', () => {
+            InsultStore.listen(update);
+
+            InsultActions.fetchInsult();
+        });
+
+        this.on('unmount', () => InsultStore.unlisten(update));
     </script>
 
 </insult>

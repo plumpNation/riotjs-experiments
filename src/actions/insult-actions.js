@@ -4,7 +4,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var alt = require('../alt');
+var alt = require('../alt'),
+    InsultSource = require('../sources/insult-source');
 
 var InsultActions = function () {
     function InsultActions() {
@@ -12,9 +13,29 @@ var InsultActions = function () {
     }
 
     _createClass(InsultActions, [{
-        key: 'updateInsults',
-        value: function updateInsults(insults) {
-            return insults;
+        key: 'updateInsult',
+        value: function updateInsult(insult) {
+            return insult;
+        }
+    }, {
+        key: 'insultFailed',
+        value: function insultFailed(error) {
+            return error;
+        }
+    }, {
+        key: 'fetchInsult',
+        value: function fetchInsult() {
+            var _this = this;
+
+            return function (dispatch) {
+                dispatch();
+
+                InsultSource.fetch().then(function (insult) {
+                    _this.updateInsult(insult);
+                }).catch(function (error) {
+                    _this.insultFailed(error);
+                });
+            };
         }
     }]);
 

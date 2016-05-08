@@ -44,12 +44,24 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	riot.tag2('insult', '<article class=""> <h3>{insult}</h3> </article>', 'insult,[riot-tag="insult"],[data-is="insult"]{ display: block; } insult h3,[riot-tag="insult"] h3,[data-is="insult"] h3{ color: red; }', '', function(opts) {
+	riot.tag2('insult', '<article class="insult-container"> <h3>{insult}</h3> </article>', 'insult,[riot-tag="insult"],[data-is="insult"]{ display: block; } insult h3,[riot-tag="insult"] h3,[data-is="insult"] h3{ color: red; }', '', function(opts) {
 	        'use strict';
 
-	        var InsultStore = __webpack_require__(1);
+	        var InsultStore   = __webpack_require__(1),
+	            InsultActions = __webpack_require__(17),
 
-	        this.insult = InsultStore.getState().insult;
+	            update = () => {
+	                this.insult = InsultStore.getState().insult;
+	                this.update();
+	            };
+
+	        this.on('mount', () => {
+	            InsultStore.listen(update);
+
+	            InsultActions.fetchInsult();
+	        });
+
+	        this.on('unmount', () => InsultStore.unlisten(update));
 	});
 
 
@@ -64,27 +76,37 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var alt = __webpack_require__(2),
-	    InsultActions = __webpack_require__(17),
-	    getInsult = function getInsult() {
-	    return insults[Math.round(Math.random() * (insults.length - 1))];
-	},
-	    insults = ['Fuck you', 'My balls your mouth', 'Jizzmop', 'Shithead', 'Tardjar', 'You\'ll never be the man your mother is', 'You must have been born on a highway, because that\'s where most accidents happen.', 'You\'re a failed abortion whose birth certificate is an ' + 'apology from the condom factory.', 'It looks like your face caught on fire and someone tried to put it out with a fork.', 'Your family tree is a cactus, because everybody on it is a prick.', 'You\'re so ugly Hello Kitty said goodbye to you.', 'You are so ugly that when your mama dropped you off at school ' + 'she got a fine for littering.', 'If you were twice as smart, you\'d still be stupid.', 'Do you have to leave so soon? I was just about to poison the tea.', 'You\'re so ugly when you popped out the doctor said aww what ' + 'a treasure and your mom said yeah lets bury it', 'Yeah, you\'re pretty. Pretty ugly.', 'Do you know how long it takes for your mother to take a crap? Nine months.', 'Out of 100,000 sperm, you were the fastest?', 'I would ask how old you are, but I know you can\'t count that high.', 'Hey, you have something on your chin...3rd one down.'];
+	    InsultActions = __webpack_require__(17);
 
 	var InsultStore = function () {
 	    function InsultStore() {
 	        _classCallCheck(this, InsultStore);
 
-	        this.insult = getInsult();
+	        this.insult = null;
+	        this.error = null;
 
 	        this.bindListeners({
-	            handleUpdateInsults: InsultActions.UPDATE_INSULTS
+	            handleUpdateInsult: InsultActions.UPDATE_INSULT,
+	            handleFetchInsult: InsultActions.FETCH_INSULT,
+	            handleInsultFailed: InsultActions.INSULT_FAILED
 	        });
 	    }
 
 	    _createClass(InsultStore, [{
-	        key: 'handleUpdateInsults',
-	        value: function handleUpdateInsults(insults) {
-	            this.insult = getInsult();
+	        key: 'handleUpdateInsult',
+	        value: function handleUpdateInsult(insult) {
+	            this.insult = insult;
+	            this.error = null;
+	        }
+	    }, {
+	        key: 'handleFetchInsult',
+	        value: function handleFetchInsult() {
+	            this.insult = null;
+	        }
+	    }, {
+	        key: 'handleInsultFailed',
+	        value: function handleInsultFailed(error) {
+	            this.error = error;
 	        }
 	    }]);
 
@@ -1900,7 +1922,8 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var alt = __webpack_require__(2);
+	var alt = __webpack_require__(2),
+	    InsultSource = __webpack_require__(18);
 
 	var InsultActions = function () {
 	    function InsultActions() {
@@ -1908,9 +1931,29 @@
 	    }
 
 	    _createClass(InsultActions, [{
-	        key: 'updateInsults',
-	        value: function updateInsults(insults) {
-	            return insults;
+	        key: 'updateInsult',
+	        value: function updateInsult(insult) {
+	            return insult;
+	        }
+	    }, {
+	        key: 'insultFailed',
+	        value: function insultFailed(error) {
+	            return error;
+	        }
+	    }, {
+	        key: 'fetchInsult',
+	        value: function fetchInsult() {
+	            var _this = this;
+
+	            return function (dispatch) {
+	                dispatch();
+
+	                InsultSource.fetch().then(function (insult) {
+	                    _this.updateInsult(insult);
+	                }).catch(function (error) {
+	                    _this.insultFailed(error);
+	                });
+	            };
 	        }
 	    }]);
 
@@ -1918,6 +1961,28 @@
 	}();
 
 	module.exports = alt.createActions(InsultActions);
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var insults = ['Fuck you', 'My balls your mouth', 'Jizzmop', 'Shithead', 'Tardjar', 'You\'ll never be the man your mother is', 'You must have been born on a highway, because that\'s where most accidents happen.', 'You\'re a failed abortion whose birth certificate is an ' + 'apology from the condom factory.', 'It looks like your face caught on fire and someone tried to put it out with a fork.', 'Your family tree is a cactus, because everybody on it is a prick.', 'You\'re so ugly Hello Kitty said goodbye to you.', 'You are so ugly that when your mama dropped you off at school ' + 'she got a fine for littering.', 'If you were twice as smart, you\'d still be stupid.', 'Do you have to leave so soon? I was just about to poison the tea.', 'You\'re so ugly when you popped out the doctor said aww what ' + 'a treasure and your mom said yeah lets bury it', 'Yeah, you\'re pretty. Pretty ugly.', 'Do you know how long it takes for your mother to take a crap? Nine months.', 'Out of 100,000 sperm, you were the fastest?', 'I would ask how old you are, but I know you can\'t count that high.', 'Hey, you have something on your chin...3rd one down.'],
+	    getRandomInsult = function getRandomInsult() {
+	    return insults[Math.round(Math.random() * (insults.length - 1))];
+	},
+	    InsultSource = {
+	    fetch: function fetch() {
+	        return new Promise(function (resolve, reject) {
+	            setTimeout(function () {
+	                resolve(getRandomInsult());
+	            }, 250);
+	        });
+	    }
+	};
+
+	module.exports = InsultSource;
 
 /***/ }
 /******/ ]);
