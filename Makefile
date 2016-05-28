@@ -11,9 +11,7 @@ help:
 # target: build - Bundle your application
 build:
 	rm -rf build && \
-	node_modules/.bin/riot src/components src/components/components.bundle.js && \
-	webpack && \
-	node_modules/.bin/babel build -d build && \
+	npm run compile && npm run bundle && npm run transpile && \
 	rm src/components/components.bundle.js
 
 # target: watch - Run build on file change

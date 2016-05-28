@@ -10,10 +10,16 @@ webpackJsonp([1, 2], [
 /* 0 */
 /***/function (module, exports, __webpack_require__) {
 
-	riot.tag2('app', '<insult></insult> <button onclick="{this.handleClick}">Insult me</button>', '', '', function (opts) {
+	riot.tag2('app', '<insult></insult> <button id="insult-adder" onclick="{this.handleClick}">Insult me</button>', '', '', function (opts) {
+		var _this5 = this;
+
 		var InsultActions = __webpack_require__(1);
 
 		InsultActions.fetchInsult();
+
+		this.on('mount', function () {
+			return _this5['insult-adder'].focus();
+		});
 
 		this.handleClick = function () {
 			return InsultActions.fetchInsult();
@@ -23,12 +29,12 @@ webpackJsonp([1, 2], [
 	riot.tag2('insult', '<article if="{insult}" class="insult-container"> <h3>{insult}</h3> </article>', 'insult,[riot-tag="insult"],[data-is="insult"]{ display: block; } insult h3,[riot-tag="insult"] h3,[data-is="insult"] h3{ color: red; }', '', function (opts) {
 		'use strict';
 
-		var _this5 = this;
+		var _this6 = this;
 
 		var InsultStore = __webpack_require__(18),
 		    setState = function setState(state) {
-			_this5.insult = state.insult;
-			_this5.update();
+			_this6.insult = state.insult;
+			_this6.update();
 		};
 
 		this.insult = '';
@@ -68,15 +74,15 @@ webpackJsonp([1, 2], [
 		}, {
 			key: 'fetchInsult',
 			value: function fetchInsult() {
-				var _this6 = this;
+				var _this7 = this;
 
 				return function (dispatch) {
 					dispatch();
 
 					InsultSource.fetch().then(function (insult) {
-						_this6.updateInsult(insult);
+						_this7.updateInsult(insult);
 					}).catch(function (error) {
-						_this6.insultFailed(error);
+						_this7.insultFailed(error);
 					});
 				};
 			}
