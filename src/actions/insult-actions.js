@@ -1,28 +1,37 @@
-var alt = require('../alt'),
-    InsultSource = require('../sources/insult-source');
+'use strict';
 
-class InsultActions {
-    updateInsult(insult) {
-        return insult;
-    }
+const UPDATE  = 'insultUpdate',
+    REQUESTED = 'insultRequested',
+    RECEIVED  = 'insultReceived',
 
-    insultFailed(error) {
-        return error;
-    }
+    InsultSource = require('../sources/insult-source'),
+    InsultStore  = require('../stores/insult-store'),
 
-    fetchInsult() {
-        return (dispatch) => {
-            dispatch();
-
-            InsultSource.fetch()
-                .then((insult) => {
-                    this.updateInsult(insult);
-                })
-                .catch((error) => {
-                    this.insultFailed(error);
-                });
+    requestInsult = function () {
+        return {
+            type: REQUESTED
         };
-    }
-}
+    },
 
-module.exports = alt.createActions(InsultActions);
+    receiveInsult = function (insult) {
+        return {
+            type: RECEIVED,
+            receivedAt: Date.now()
+        };
+    },
+
+    fetchInsults = () => {
+        return dispatch => {
+            InsultStore.dispatch(requestInsult());
+
+            return InsultSource.fetch()
+                .then(insult => InsultStore.dispatch(receiveInsult(insult)));
+        };
+    };
+
+module.exports = {
+    fetchInsults,
+    UPDATE,
+    REQUESTED,
+    RECEIEVED
+};

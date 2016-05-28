@@ -1,4 +1,4 @@
-var insults = [
+const insults = [
         'Fuck you',
         'My balls your mouth',
         'Jizzmop',

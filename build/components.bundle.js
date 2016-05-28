@@ -1,780 +1,124 @@
-'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck2(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-webpackJsonp([1, 2], [
+webpackJsonp([1,2],[
 /* 0 */
-/***/function (module, exports, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	riot.tag2('app', '<insult></insult> <button id="insult-adder" onclick="{this.handleClick}">Insult me</button>', '', '', function (opts) {
-		var _this5 = this;
 
-		var InsultActions = __webpack_require__(1);
+	    'use strict';
 
-		InsultActions.fetchInsult();
+	    var _this = this;
 
-		this.on('mount', function () {
-			return _this5['insult-adder'].focus();
-		});
+	    var InsultStore = __webpack_require__(1),
+	        InsultAction = __webpack_require__(17),
+	        fetchInsult = function fetchInsult() {
+	        InsultStore.dispatch(InsultAction.fetchInsults());
+	    };
 
-		this.handleClick = function () {
-			return InsultActions.fetchInsult();
-		};
+	    fetchInsult();
+
+	    this.on('mount', function () {
+	        return _this['insult-adder'].focus();
+	    });
+
+	    this.handleClick = fetchInsult;
 	});
 
 	riot.tag2('insult', '<article if="{insult}" class="insult-container"> <h3>{insult}</h3> </article>', 'insult,[riot-tag="insult"],[data-is="insult"]{ display: block; } insult h3,[riot-tag="insult"] h3,[data-is="insult"] h3{ color: red; }', '', function (opts) {
-		'use strict';
 
-		var _this6 = this;
+	    'use strict';
 
-		var InsultStore = __webpack_require__(18),
-		    setState = function setState(state) {
-			_this6.insult = state.insult;
-			_this6.update();
-		};
+	    var _this2 = this;
 
-		this.insult = '';
+	    var InsultStore = __webpack_require__(1),
+	        setState = function setState(state) {
+	        _this2.insult = state.insult;
+	        _this2.update();
+	    };
 
-		this.on('mount', function () {
-			InsultStore.listen(setState);
-		});
+	    var unsubscriber = void 0;
 
-		this.on('unmount', function () {
-			return InsultStore.unlisten(setState);
-		});
+	    this.insult = '';
+
+	    this.on('mount', function () {
+	        return unsubscriber = InsultStore.subscribe(function () {
+	            return setState(InsultStore.getState());
+	        });
+	    });
+	    this.on('unmount', function () {
+	        return unsubscriber();
+	    });
 	});
 
-	/***/
-},
+/***/ },
 /* 1 */
-/***/function (module, exports, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
-	var alt = __webpack_require__(2),
-	    InsultSource = __webpack_require__(17);
+	
 
-	var InsultActions = function () {
-		function InsultActions() {
-			_classCallCheck2(this, InsultActions);
-		}
+	'use strict';
 
-		_createClass(InsultActions, [{
-			key: 'updateInsult',
-			value: function updateInsult(insult) {
-				return insult;
-			}
-		}, {
-			key: 'insultFailed',
-			value: function insultFailed(error) {
-				return error;
-			}
-		}, {
-			key: 'fetchInsult',
-			value: function fetchInsult() {
-				var _this7 = this;
+	var Redux = __webpack_require__(2),
+	    insultsApp = __webpack_require__(16);
 
-				return function (dispatch) {
-					dispatch();
+	module.exports = Redux.createStore(insultsApp);
 
-					InsultSource.fetch().then(function (insult) {
-						_this7.updateInsult(insult);
-					}).catch(function (error) {
-						_this7.insultFailed(error);
-					});
-				};
-			}
-		}]);
-
-		return InsultActions;
-	}();
-
-	module.exports = alt.createActions(InsultActions);
-
-	/***/
-},
+/***/ },
 /* 2 */
-/***/function (module, exports, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var Alt = __webpack_require__(3),
-	    alt = new Alt();
+	exports.__esModule = true;
+	exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 
-	module.exports = alt;
+	var _createStore = __webpack_require__(4);
 
-	/***/
-},
+	var _createStore2 = _interopRequireDefault(_createStore);
+
+	var _combineReducers = __webpack_require__(11);
+
+	var _combineReducers2 = _interopRequireDefault(_combineReducers);
+
+	var _bindActionCreators = __webpack_require__(13);
+
+	var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
+
+	var _applyMiddleware = __webpack_require__(14);
+
+	var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
+
+	var _compose = __webpack_require__(15);
+
+	var _compose2 = _interopRequireDefault(_compose);
+
+	var _warning = __webpack_require__(12);
+
+	var _warning2 = _interopRequireDefault(_warning);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	/*
+	* This is a dummy function to check if the function name has been altered by minification.
+	* If the function has been minified and NODE_ENV !== 'production', warn the user.
+	*/
+	function isCrushed() {}
+
+	if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
+	  (0, _warning2["default"])('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
+	}
+
+	exports.createStore = _createStore2["default"];
+	exports.combineReducers = _combineReducers2["default"];
+	exports.bindActionCreators = _bindActionCreators2["default"];
+	exports.applyMiddleware = _applyMiddleware2["default"];
+	exports.compose = _compose2["default"];
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
 /* 3 */
-/***/function (module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _flux = __webpack_require__(4);
-
-	var _StateFunctions = __webpack_require__(8);
-
-	var StateFunctions = _interopRequireWildcard(_StateFunctions);
-
-	var _functions = __webpack_require__(9);
-
-	var fn = _interopRequireWildcard(_functions);
-
-	var _store = __webpack_require__(10);
-
-	var store = _interopRequireWildcard(_store);
-
-	var _AltUtils = __webpack_require__(11);
-
-	var utils = _interopRequireWildcard(_AltUtils);
-
-	var _actions = __webpack_require__(15);
-
-	var _actions2 = _interopRequireDefault(_actions);
-
-	function _interopRequireDefault(obj) {
-		return obj && obj.__esModule ? obj : { 'default': obj };
-	}
-
-	function _interopRequireWildcard(obj) {
-		if (obj && obj.__esModule) {
-			return obj;
-		} else {
-			var newObj = {};if (obj != null) {
-				for (var key in obj) {
-					if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-				}
-			}newObj['default'] = obj;return newObj;
-		}
-	}
-
-	function _possibleConstructorReturn(self, call) {
-		if (!self) {
-			throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-		}return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-	}
-
-	function _inherits(subClass, superClass) {
-		if (typeof superClass !== "function" && superClass !== null) {
-			throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-		}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-	}
-
-	function _classCallCheck(instance, Constructor) {
-		if (!(instance instanceof Constructor)) {
-			throw new TypeError("Cannot call a class as a function");
-		}
-	} /* global window */
-
-	var Alt = function () {
-		function Alt() {
-			var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-			_classCallCheck(this, Alt);
-
-			this.config = config;
-			this.serialize = config.serialize || JSON.stringify;
-			this.deserialize = config.deserialize || JSON.parse;
-			this.dispatcher = config.dispatcher || new _flux.Dispatcher();
-			this.batchingFunction = config.batchingFunction || function (callback) {
-				return callback();
-			};
-			this.actions = { global: {} };
-			this.stores = {};
-			this.storeTransforms = config.storeTransforms || [];
-			this.trapAsync = false;
-			this._actionsRegistry = {};
-			this._initSnapshot = {};
-			this._lastSnapshot = {};
-		}
-
-		Alt.prototype.dispatch = function () {
-			function dispatch(action, data, details) {
-				var _this = this;
-
-				this.batchingFunction(function () {
-					var id = Math.random().toString(18).substr(2, 16);
-
-					// support straight dispatching of FSA-style actions
-					if (action.hasOwnProperty('type') && action.hasOwnProperty('payload')) {
-						var fsaDetails = {
-							id: action.type,
-							namespace: action.type,
-							name: action.type
-						};
-						return _this.dispatcher.dispatch(utils.fsa(id, action.type, action.payload, fsaDetails));
-					}
-
-					if (action.id && action.dispatch) {
-						return utils.dispatch(id, action, data, _this);
-					}
-
-					return _this.dispatcher.dispatch(utils.fsa(id, action, data, details));
-				});
-			}
-
-			return dispatch;
-		}();
-
-		Alt.prototype.createUnsavedStore = function () {
-			function createUnsavedStore(StoreModel) {
-				var key = StoreModel.displayName || '';
-				store.createStoreConfig(this.config, StoreModel);
-				var Store = store.transformStore(this.storeTransforms, StoreModel);
-
-				for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-					args[_key - 1] = arguments[_key];
-				}
-
-				return fn.isFunction(Store) ? store.createStoreFromClass.apply(store, [this, Store, key].concat(args)) : store.createStoreFromObject(this, Store, key);
-			}
-
-			return createUnsavedStore;
-		}();
-
-		Alt.prototype.createStore = function () {
-			function createStore(StoreModel, iden) {
-				var key = iden || StoreModel.displayName || StoreModel.name || '';
-				store.createStoreConfig(this.config, StoreModel);
-				var Store = store.transformStore(this.storeTransforms, StoreModel);
-
-				/* istanbul ignore next */
-				if (false) delete this.stores[key];
-
-				if (this.stores[key] || !key) {
-					if (this.stores[key]) {
-						utils.warn('A store named ' + String(key) + ' already exists, double check your store ' + 'names or pass in your own custom identifier for each store');
-					} else {
-						utils.warn('Store name was not specified');
-					}
-
-					key = utils.uid(this.stores, key);
-				}
-
-				for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-					args[_key2 - 2] = arguments[_key2];
-				}
-
-				var storeInstance = fn.isFunction(Store) ? store.createStoreFromClass.apply(store, [this, Store, key].concat(args)) : store.createStoreFromObject(this, Store, key);
-
-				this.stores[key] = storeInstance;
-				StateFunctions.saveInitialSnapshot(this, key);
-
-				return storeInstance;
-			}
-
-			return createStore;
-		}();
-
-		Alt.prototype.generateActions = function () {
-			function generateActions() {
-				var actions = { name: 'global' };
-
-				for (var _len3 = arguments.length, actionNames = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-					actionNames[_key3] = arguments[_key3];
-				}
-
-				return this.createActions(actionNames.reduce(function (obj, action) {
-					obj[action] = utils.dispatchIdentity;
-					return obj;
-				}, actions));
-			}
-
-			return generateActions;
-		}();
-
-		Alt.prototype.createAction = function () {
-			function createAction(name, implementation, obj) {
-				return (0, _actions2.default)(this, 'global', name, implementation, obj);
-			}
-
-			return createAction;
-		}();
-
-		Alt.prototype.createActions = function () {
-			function createActions(ActionsClass) {
-				var _this3 = this;
-
-				var exportObj = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-				var actions = {};
-				var key = utils.uid(this._actionsRegistry, ActionsClass.displayName || ActionsClass.name || 'Unknown');
-
-				if (fn.isFunction(ActionsClass)) {
-					fn.assign(actions, utils.getPrototypeChain(ActionsClass));
-
-					var ActionsGenerator = function (_ActionsClass) {
-						_inherits(ActionsGenerator, _ActionsClass);
-
-						function ActionsGenerator() {
-							_classCallCheck(this, ActionsGenerator);
-
-							for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-								args[_key5] = arguments[_key5];
-							}
-
-							return _possibleConstructorReturn(this, _ActionsClass.call.apply(_ActionsClass, [this].concat(args)));
-						}
-
-						ActionsGenerator.prototype.generateActions = function () {
-							function generateActions() {
-								for (var _len6 = arguments.length, actionNames = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
-									actionNames[_key6] = arguments[_key6];
-								}
-
-								actionNames.forEach(function (actionName) {
-									actions[actionName] = utils.dispatchIdentity;
-								});
-							}
-
-							return generateActions;
-						}();
-
-						return ActionsGenerator;
-					}(ActionsClass);
-
-					for (var _len4 = arguments.length, argsForConstructor = Array(_len4 > 2 ? _len4 - 2 : 0), _key4 = 2; _key4 < _len4; _key4++) {
-						argsForConstructor[_key4 - 2] = arguments[_key4];
-					}
-
-					fn.assign(actions, new (Function.prototype.bind.apply(ActionsGenerator, [null].concat(argsForConstructor)))());
-				} else {
-					fn.assign(actions, ActionsClass);
-				}
-
-				this.actions[key] = this.actions[key] || {};
-
-				fn.eachObject(function (actionName, action) {
-					if (!fn.isFunction(action)) {
-						exportObj[actionName] = action;
-						return;
-					}
-
-					// create the action
-					exportObj[actionName] = (0, _actions2.default)(_this3, key, actionName, action, exportObj);
-
-					// generate a constant
-					var constant = utils.formatAsConstant(actionName);
-					exportObj[constant] = exportObj[actionName].id;
-				}, [actions]);
-
-				return exportObj;
-			}
-
-			return createActions;
-		}();
-
-		Alt.prototype.takeSnapshot = function () {
-			function takeSnapshot() {
-				for (var _len7 = arguments.length, storeNames = Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
-					storeNames[_key7] = arguments[_key7];
-				}
-
-				var state = StateFunctions.snapshot(this, storeNames);
-				fn.assign(this._lastSnapshot, state);
-				return this.serialize(state);
-			}
-
-			return takeSnapshot;
-		}();
-
-		Alt.prototype.rollback = function () {
-			function rollback() {
-				StateFunctions.setAppState(this, this.serialize(this._lastSnapshot), function (storeInst) {
-					storeInst.lifecycle('rollback');
-					storeInst.emitChange();
-				});
-			}
-
-			return rollback;
-		}();
-
-		Alt.prototype.recycle = function () {
-			function recycle() {
-				for (var _len8 = arguments.length, storeNames = Array(_len8), _key8 = 0; _key8 < _len8; _key8++) {
-					storeNames[_key8] = arguments[_key8];
-				}
-
-				var initialSnapshot = storeNames.length ? StateFunctions.filterSnapshots(this, this._initSnapshot, storeNames) : this._initSnapshot;
-
-				StateFunctions.setAppState(this, this.serialize(initialSnapshot), function (storeInst) {
-					storeInst.lifecycle('init');
-					storeInst.emitChange();
-				});
-			}
-
-			return recycle;
-		}();
-
-		Alt.prototype.flush = function () {
-			function flush() {
-				var state = this.serialize(StateFunctions.snapshot(this));
-				this.recycle();
-				return state;
-			}
-
-			return flush;
-		}();
-
-		Alt.prototype.bootstrap = function () {
-			function bootstrap(data) {
-				StateFunctions.setAppState(this, data, function (storeInst, state) {
-					storeInst.lifecycle('bootstrap', state);
-					storeInst.emitChange();
-				});
-			}
-
-			return bootstrap;
-		}();
-
-		Alt.prototype.prepare = function () {
-			function prepare(storeInst, payload) {
-				var data = {};
-				if (!storeInst.displayName) {
-					throw new ReferenceError('Store provided does not have a name');
-				}
-				data[storeInst.displayName] = payload;
-				return this.serialize(data);
-			}
-
-			return prepare;
-		}();
-
-		// Instance type methods for injecting alt into your application as context
-
-		Alt.prototype.addActions = function () {
-			function addActions(name, ActionsClass) {
-				for (var _len9 = arguments.length, args = Array(_len9 > 2 ? _len9 - 2 : 0), _key9 = 2; _key9 < _len9; _key9++) {
-					args[_key9 - 2] = arguments[_key9];
-				}
-
-				this.actions[name] = Array.isArray(ActionsClass) ? this.generateActions.apply(this, ActionsClass) : this.createActions.apply(this, [ActionsClass].concat(args));
-			}
-
-			return addActions;
-		}();
-
-		Alt.prototype.addStore = function () {
-			function addStore(name, StoreModel) {
-				for (var _len10 = arguments.length, args = Array(_len10 > 2 ? _len10 - 2 : 0), _key10 = 2; _key10 < _len10; _key10++) {
-					args[_key10 - 2] = arguments[_key10];
-				}
-
-				this.createStore.apply(this, [StoreModel, name].concat(args));
-			}
-
-			return addStore;
-		}();
-
-		Alt.prototype.getActions = function () {
-			function getActions(name) {
-				return this.actions[name];
-			}
-
-			return getActions;
-		}();
-
-		Alt.prototype.getStore = function () {
-			function getStore(name) {
-				return this.stores[name];
-			}
-
-			return getStore;
-		}();
-
-		Alt.debug = function () {
-			function debug(name, alt, win) {
-				var key = 'alt.js.org';
-				var context = win;
-				if (!context && typeof window !== 'undefined') {
-					context = window;
-				}
-				if (typeof context !== 'undefined') {
-					context[key] = context[key] || [];
-					context[key].push({ name: name, alt: alt });
-				}
-				return alt;
-			}
-
-			return debug;
-		}();
-
-		return Alt;
-	}();
-
-	exports.default = Alt;
-	module.exports = exports['default'];
-
-	/***/
-},
-/* 4 */
-/***/function (module, exports, __webpack_require__) {
-
-	/**
-  * Copyright (c) 2014-2015, Facebook, Inc.
-  * All rights reserved.
-  *
-  * This source code is licensed under the BSD-style license found in the
-  * LICENSE file in the root directory of this source tree. An additional grant
-  * of patent rights can be found in the PATENTS file in the same directory.
-  */
-
-	module.exports.Dispatcher = __webpack_require__(5);
-
-	/***/
-},
-/* 5 */
-/***/function (module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function (process) {
-		/**
-  * Copyright (c) 2014-2015, Facebook, Inc.
-  * All rights reserved.
-  *
-  * This source code is licensed under the BSD-style license found in the
-  * LICENSE file in the root directory of this source tree. An additional grant
-  * of patent rights can be found in the PATENTS file in the same directory.
-  *
-  * @providesModule Dispatcher
-  * 
-  * @preventMunge
-  */
-
-		'use strict';
-
-		exports.__esModule = true;
-
-		function _classCallCheck(instance, Constructor) {
-			if (!(instance instanceof Constructor)) {
-				throw new TypeError('Cannot call a class as a function');
-			}
-		}
-
-		var invariant = __webpack_require__(7);
-
-		var _prefix = 'ID_';
-
-		/**
-   * Dispatcher is used to broadcast payloads to registered callbacks. This is
-   * different from generic pub-sub systems in two ways:
-   *
-   *   1) Callbacks are not subscribed to particular events. Every payload is
-   *      dispatched to every registered callback.
-   *   2) Callbacks can be deferred in whole or part until other callbacks have
-   *      been executed.
-   *
-   * For example, consider this hypothetical flight destination form, which
-   * selects a default city when a country is selected:
-   *
-   *   var flightDispatcher = new Dispatcher();
-   *
-   *   // Keeps track of which country is selected
-   *   var CountryStore = {country: null};
-   *
-   *   // Keeps track of which city is selected
-   *   var CityStore = {city: null};
-   *
-   *   // Keeps track of the base flight price of the selected city
-   *   var FlightPriceStore = {price: null}
-   *
-   * When a user changes the selected city, we dispatch the payload:
-   *
-   *   flightDispatcher.dispatch({
-   *     actionType: 'city-update',
-   *     selectedCity: 'paris'
-   *   });
-   *
-   * This payload is digested by `CityStore`:
-   *
-   *   flightDispatcher.register(function(payload) {
-   *     if (payload.actionType === 'city-update') {
-   *       CityStore.city = payload.selectedCity;
-   *     }
-   *   });
-   *
-   * When the user selects a country, we dispatch the payload:
-   *
-   *   flightDispatcher.dispatch({
-   *     actionType: 'country-update',
-   *     selectedCountry: 'australia'
-   *   });
-   *
-   * This payload is digested by both stores:
-   *
-   *   CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
-   *     if (payload.actionType === 'country-update') {
-   *       CountryStore.country = payload.selectedCountry;
-   *     }
-   *   });
-   *
-   * When the callback to update `CountryStore` is registered, we save a reference
-   * to the returned token. Using this token with `waitFor()`, we can guarantee
-   * that `CountryStore` is updated before the callback that updates `CityStore`
-   * needs to query its data.
-   *
-   *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
-   *     if (payload.actionType === 'country-update') {
-   *       // `CountryStore.country` may not be updated.
-   *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
-   *       // `CountryStore.country` is now guaranteed to be updated.
-   *
-   *       // Select the default city for the new country
-   *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
-   *     }
-   *   });
-   *
-   * The usage of `waitFor()` can be chained, for example:
-   *
-   *   FlightPriceStore.dispatchToken =
-   *     flightDispatcher.register(function(payload) {
-   *       switch (payload.actionType) {
-   *         case 'country-update':
-   *         case 'city-update':
-   *           flightDispatcher.waitFor([CityStore.dispatchToken]);
-   *           FlightPriceStore.price =
-   *             getFlightPriceStore(CountryStore.country, CityStore.city);
-   *           break;
-   *     }
-   *   });
-   *
-   * The `country-update` payload will be guaranteed to invoke the stores'
-   * registered callbacks in order: `CountryStore`, `CityStore`, then
-   * `FlightPriceStore`.
-   */
-
-		var Dispatcher = function () {
-			function Dispatcher() {
-				_classCallCheck(this, Dispatcher);
-
-				this._callbacks = {};
-				this._isDispatching = false;
-				this._isHandled = {};
-				this._isPending = {};
-				this._lastID = 1;
-			}
-
-			/**
-    * Registers a callback to be invoked with every dispatched payload. Returns
-    * a token that can be used with `waitFor()`.
-    */
-
-			Dispatcher.prototype.register = function register(callback) {
-				var id = _prefix + this._lastID++;
-				this._callbacks[id] = callback;
-				return id;
-			};
-
-			/**
-    * Removes a callback based on its token.
-    */
-
-			Dispatcher.prototype.unregister = function unregister(id) {
-				!this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
-				delete this._callbacks[id];
-			};
-
-			/**
-    * Waits for the callbacks specified to be invoked before continuing execution
-    * of the current callback. This method should only be used by a callback in
-    * response to a dispatched payload.
-    */
-
-			Dispatcher.prototype.waitFor = function waitFor(ids) {
-				!this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Must be invoked while dispatching.') : invariant(false) : undefined;
-				for (var ii = 0; ii < ids.length; ii++) {
-					var id = ids[ii];
-					if (this._isPending[id]) {
-						!this._isHandled[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id) : invariant(false) : undefined;
-						continue;
-					}
-					!this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
-					this._invokeCallback(id);
-				}
-			};
-
-			/**
-    * Dispatches a payload to all registered callbacks.
-    */
-
-			Dispatcher.prototype.dispatch = function dispatch(payload) {
-				!!this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.') : invariant(false) : undefined;
-				this._startDispatching(payload);
-				try {
-					for (var id in this._callbacks) {
-						if (this._isPending[id]) {
-							continue;
-						}
-						this._invokeCallback(id);
-					}
-				} finally {
-					this._stopDispatching();
-				}
-			};
-
-			/**
-    * Is this Dispatcher currently dispatching.
-    */
-
-			Dispatcher.prototype.isDispatching = function isDispatching() {
-				return this._isDispatching;
-			};
-
-			/**
-    * Call the callback stored with the given id. Also do some internal
-    * bookkeeping.
-    *
-    * @internal
-    */
-
-			Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
-				this._isPending[id] = true;
-				this._callbacks[id](this._pendingPayload);
-				this._isHandled[id] = true;
-			};
-
-			/**
-    * Set up bookkeeping needed when dispatching.
-    *
-    * @internal
-    */
-
-			Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
-				for (var id in this._callbacks) {
-					this._isPending[id] = false;
-					this._isHandled[id] = false;
-				}
-				this._pendingPayload = payload;
-				this._isDispatching = true;
-			};
-
-			/**
-    * Clear bookkeeping used for dispatching.
-    *
-    * @internal
-    */
-
-			Dispatcher.prototype._stopDispatching = function _stopDispatching() {
-				delete this._pendingPayload;
-				this._isDispatching = false;
-			};
-
-			return Dispatcher;
-		}();
-
-		module.exports = Dispatcher;
-		/* WEBPACK VAR INJECTION */
-	}).call(exports, __webpack_require__(6));
-
-	/***/
-},
-/* 6 */
-/***/function (module, exports) {
+/***/ function(module, exports) {
 
 	// shim for using process in browser
 
@@ -785,64 +129,64 @@ webpackJsonp([1, 2], [
 	var queueIndex = -1;
 
 	function cleanUpNextTick() {
-		if (!draining || !currentQueue) {
-			return;
-		}
-		draining = false;
-		if (currentQueue.length) {
-			queue = currentQueue.concat(queue);
-		} else {
-			queueIndex = -1;
-		}
-		if (queue.length) {
-			drainQueue();
-		}
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
+	    draining = false;
+	    if (currentQueue.length) {
+	        queue = currentQueue.concat(queue);
+	    } else {
+	        queueIndex = -1;
+	    }
+	    if (queue.length) {
+	        drainQueue();
+	    }
 	}
 
 	function drainQueue() {
-		if (draining) {
-			return;
-		}
-		var timeout = setTimeout(cleanUpNextTick);
-		draining = true;
+	    if (draining) {
+	        return;
+	    }
+	    var timeout = setTimeout(cleanUpNextTick);
+	    draining = true;
 
-		var len = queue.length;
-		while (len) {
-			currentQueue = queue;
-			queue = [];
-			while (++queueIndex < len) {
-				if (currentQueue) {
-					currentQueue[queueIndex].run();
-				}
-			}
-			queueIndex = -1;
-			len = queue.length;
-		}
-		currentQueue = null;
-		draining = false;
-		clearTimeout(timeout);
+	    var len = queue.length;
+	    while(len) {
+	        currentQueue = queue;
+	        queue = [];
+	        while (++queueIndex < len) {
+	            if (currentQueue) {
+	                currentQueue[queueIndex].run();
+	            }
+	        }
+	        queueIndex = -1;
+	        len = queue.length;
+	    }
+	    currentQueue = null;
+	    draining = false;
+	    clearTimeout(timeout);
 	}
 
 	process.nextTick = function (fun) {
-		var args = new Array(arguments.length - 1);
-		if (arguments.length > 1) {
-			for (var i = 1; i < arguments.length; i++) {
-				args[i - 1] = arguments[i];
-			}
-		}
-		queue.push(new Item(fun, args));
-		if (queue.length === 1 && !draining) {
-			setTimeout(drainQueue, 0);
-		}
+	    var args = new Array(arguments.length - 1);
+	    if (arguments.length > 1) {
+	        for (var i = 1; i < arguments.length; i++) {
+	            args[i - 1] = arguments[i];
+	        }
+	    }
+	    queue.push(new Item(fun, args));
+	    if (queue.length === 1 && !draining) {
+	        setTimeout(drainQueue, 0);
+	    }
 	};
 
 	// v8 likes predictible objects
 	function Item(fun, array) {
-		this.fun = fun;
-		this.array = array;
+	    this.fun = fun;
+	    this.array = array;
 	}
 	Item.prototype.run = function () {
-		this.fun.apply(null, this.array);
+	    this.fun.apply(null, this.array);
 	};
 	process.title = 'browser';
 	process.browser = true;
@@ -862,1238 +206,900 @@ webpackJsonp([1, 2], [
 	process.emit = noop;
 
 	process.binding = function (name) {
-		throw new Error('process.binding is not supported');
+	    throw new Error('process.binding is not supported');
 	};
 
-	process.cwd = function () {
-		return '/';
-	};
+	process.cwd = function () { return '/' };
 	process.chdir = function (dir) {
-		throw new Error('process.chdir is not supported');
+	    throw new Error('process.chdir is not supported');
 	};
-	process.umask = function () {
-		return 0;
+	process.umask = function() { return 0; };
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.ActionTypes = undefined;
+	exports["default"] = createStore;
+
+	var _isPlainObject = __webpack_require__(5);
+
+	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
+
+	var _symbolObservable = __webpack_require__(9);
+
+	var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	/**
+	 * These are private action types reserved by Redux.
+	 * For any unknown actions, you must return the current state.
+	 * If the current state is undefined, you must return the initial state.
+	 * Do not reference these action types directly in your code.
+	 */
+	var ActionTypes = exports.ActionTypes = {
+	  INIT: '@@redux/INIT'
 	};
 
-	/***/
-},
+	/**
+	 * Creates a Redux store that holds the state tree.
+	 * The only way to change the data in the store is to call `dispatch()` on it.
+	 *
+	 * There should only be a single store in your app. To specify how different
+	 * parts of the state tree respond to actions, you may combine several reducers
+	 * into a single reducer function by using `combineReducers`.
+	 *
+	 * @param {Function} reducer A function that returns the next state tree, given
+	 * the current state tree and the action to handle.
+	 *
+	 * @param {any} [initialState] The initial state. You may optionally specify it
+	 * to hydrate the state from the server in universal apps, or to restore a
+	 * previously serialized user session.
+	 * If you use `combineReducers` to produce the root reducer function, this must be
+	 * an object with the same shape as `combineReducers` keys.
+	 *
+	 * @param {Function} enhancer The store enhancer. You may optionally specify it
+	 * to enhance the store with third-party capabilities such as middleware,
+	 * time travel, persistence, etc. The only store enhancer that ships with Redux
+	 * is `applyMiddleware()`.
+	 *
+	 * @returns {Store} A Redux store that lets you read the state, dispatch actions
+	 * and subscribe to changes.
+	 */
+	function createStore(reducer, initialState, enhancer) {
+	  var _ref2;
+
+	  if (typeof initialState === 'function' && typeof enhancer === 'undefined') {
+	    enhancer = initialState;
+	    initialState = undefined;
+	  }
+
+	  if (typeof enhancer !== 'undefined') {
+	    if (typeof enhancer !== 'function') {
+	      throw new Error('Expected the enhancer to be a function.');
+	    }
+
+	    return enhancer(createStore)(reducer, initialState);
+	  }
+
+	  if (typeof reducer !== 'function') {
+	    throw new Error('Expected the reducer to be a function.');
+	  }
+
+	  var currentReducer = reducer;
+	  var currentState = initialState;
+	  var currentListeners = [];
+	  var nextListeners = currentListeners;
+	  var isDispatching = false;
+
+	  function ensureCanMutateNextListeners() {
+	    if (nextListeners === currentListeners) {
+	      nextListeners = currentListeners.slice();
+	    }
+	  }
+
+	  /**
+	   * Reads the state tree managed by the store.
+	   *
+	   * @returns {any} The current state tree of your application.
+	   */
+	  function getState() {
+	    return currentState;
+	  }
+
+	  /**
+	   * Adds a change listener. It will be called any time an action is dispatched,
+	   * and some part of the state tree may potentially have changed. You may then
+	   * call `getState()` to read the current state tree inside the callback.
+	   *
+	   * You may call `dispatch()` from a change listener, with the following
+	   * caveats:
+	   *
+	   * 1. The subscriptions are snapshotted just before every `dispatch()` call.
+	   * If you subscribe or unsubscribe while the listeners are being invoked, this
+	   * will not have any effect on the `dispatch()` that is currently in progress.
+	   * However, the next `dispatch()` call, whether nested or not, will use a more
+	   * recent snapshot of the subscription list.
+	   *
+	   * 2. The listener should not expect to see all state changes, as the state
+	   * might have been updated multiple times during a nested `dispatch()` before
+	   * the listener is called. It is, however, guaranteed that all subscribers
+	   * registered before the `dispatch()` started will be called with the latest
+	   * state by the time it exits.
+	   *
+	   * @param {Function} listener A callback to be invoked on every dispatch.
+	   * @returns {Function} A function to remove this change listener.
+	   */
+	  function subscribe(listener) {
+	    if (typeof listener !== 'function') {
+	      throw new Error('Expected listener to be a function.');
+	    }
+
+	    var isSubscribed = true;
+
+	    ensureCanMutateNextListeners();
+	    nextListeners.push(listener);
+
+	    return function unsubscribe() {
+	      if (!isSubscribed) {
+	        return;
+	      }
+
+	      isSubscribed = false;
+
+	      ensureCanMutateNextListeners();
+	      var index = nextListeners.indexOf(listener);
+	      nextListeners.splice(index, 1);
+	    };
+	  }
+
+	  /**
+	   * Dispatches an action. It is the only way to trigger a state change.
+	   *
+	   * The `reducer` function, used to create the store, will be called with the
+	   * current state tree and the given `action`. Its return value will
+	   * be considered the **next** state of the tree, and the change listeners
+	   * will be notified.
+	   *
+	   * The base implementation only supports plain object actions. If you want to
+	   * dispatch a Promise, an Observable, a thunk, or something else, you need to
+	   * wrap your store creating function into the corresponding middleware. For
+	   * example, see the documentation for the `redux-thunk` package. Even the
+	   * middleware will eventually dispatch plain object actions using this method.
+	   *
+	   * @param {Object} action A plain object representing “what changed”. It is
+	   * a good idea to keep actions serializable so you can record and replay user
+	   * sessions, or use the time travelling `redux-devtools`. An action must have
+	   * a `type` property which may not be `undefined`. It is a good idea to use
+	   * string constants for action types.
+	   *
+	   * @returns {Object} For convenience, the same action object you dispatched.
+	   *
+	   * Note that, if you use a custom middleware, it may wrap `dispatch()` to
+	   * return something else (for example, a Promise you can await).
+	   */
+	  function dispatch(action) {
+	    if (!(0, _isPlainObject2["default"])(action)) {
+	      throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
+	    }
+
+	    if (typeof action.type === 'undefined') {
+	      throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
+	    }
+
+	    if (isDispatching) {
+	      throw new Error('Reducers may not dispatch actions.');
+	    }
+
+	    try {
+	      isDispatching = true;
+	      currentState = currentReducer(currentState, action);
+	    } finally {
+	      isDispatching = false;
+	    }
+
+	    var listeners = currentListeners = nextListeners;
+	    for (var i = 0; i < listeners.length; i++) {
+	      listeners[i]();
+	    }
+
+	    return action;
+	  }
+
+	  /**
+	   * Replaces the reducer currently used by the store to calculate the state.
+	   *
+	   * You might need this if your app implements code splitting and you want to
+	   * load some of the reducers dynamically. You might also need this if you
+	   * implement a hot reloading mechanism for Redux.
+	   *
+	   * @param {Function} nextReducer The reducer for the store to use instead.
+	   * @returns {void}
+	   */
+	  function replaceReducer(nextReducer) {
+	    if (typeof nextReducer !== 'function') {
+	      throw new Error('Expected the nextReducer to be a function.');
+	    }
+
+	    currentReducer = nextReducer;
+	    dispatch({ type: ActionTypes.INIT });
+	  }
+
+	  /**
+	   * Interoperability point for observable/reactive libraries.
+	   * @returns {observable} A minimal observable of state changes.
+	   * For more information, see the observable proposal:
+	   * https://github.com/zenparsing/es-observable
+	   */
+	  function observable() {
+	    var _ref;
+
+	    var outerSubscribe = subscribe;
+	    return _ref = {
+	      /**
+	       * The minimal observable subscription method.
+	       * @param {Object} observer Any object that can be used as an observer.
+	       * The observer object should have a `next` method.
+	       * @returns {subscription} An object with an `unsubscribe` method that can
+	       * be used to unsubscribe the observable from the store, and prevent further
+	       * emission of values from the observable.
+	       */
+
+	      subscribe: function subscribe(observer) {
+	        if (typeof observer !== 'object') {
+	          throw new TypeError('Expected the observer to be an object.');
+	        }
+
+	        function observeState() {
+	          if (observer.next) {
+	            observer.next(getState());
+	          }
+	        }
+
+	        observeState();
+	        var unsubscribe = outerSubscribe(observeState);
+	        return { unsubscribe: unsubscribe };
+	      }
+	    }, _ref[_symbolObservable2["default"]] = function () {
+	      return this;
+	    }, _ref;
+	  }
+
+	  // When a store is created, an "INIT" action is dispatched so that every
+	  // reducer returns their initial state. This effectively populates
+	  // the initial state tree.
+	  dispatch({ type: ActionTypes.INIT });
+
+	  return _ref2 = {
+	    dispatch: dispatch,
+	    subscribe: subscribe,
+	    getState: getState,
+	    replaceReducer: replaceReducer
+	  }, _ref2[_symbolObservable2["default"]] = observable, _ref2;
+	}
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var getPrototype = __webpack_require__(6),
+	    isHostObject = __webpack_require__(7),
+	    isObjectLike = __webpack_require__(8);
+
+	/** `Object#toString` result references. */
+	var objectTag = '[object Object]';
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to resolve the decompiled source of functions. */
+	var funcToString = Function.prototype.toString;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/** Used to infer the `Object` constructor. */
+	var objectCtorString = funcToString.call(Object);
+
+	/**
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+
+	/**
+	 * Checks if `value` is a plain object, that is, an object created by the
+	 * `Object` constructor or one with a `[[Prototype]]` of `null`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.8.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a plain object,
+	 *  else `false`.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 * }
+	 *
+	 * _.isPlainObject(new Foo);
+	 * // => false
+	 *
+	 * _.isPlainObject([1, 2, 3]);
+	 * // => false
+	 *
+	 * _.isPlainObject({ 'x': 0, 'y': 0 });
+	 * // => true
+	 *
+	 * _.isPlainObject(Object.create(null));
+	 * // => true
+	 */
+	function isPlainObject(value) {
+	  if (!isObjectLike(value) ||
+	      objectToString.call(value) != objectTag || isHostObject(value)) {
+	    return false;
+	  }
+	  var proto = getPrototype(value);
+	  if (proto === null) {
+	    return true;
+	  }
+	  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+	  return (typeof Ctor == 'function' &&
+	    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+	}
+
+	module.exports = isPlainObject;
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	/* Built-in method references for those with the same name as other `lodash` methods. */
+	var nativeGetPrototype = Object.getPrototypeOf;
+
+	/**
+	 * Gets the `[[Prototype]]` of `value`.
+	 *
+	 * @private
+	 * @param {*} value The value to query.
+	 * @returns {null|Object} Returns the `[[Prototype]]`.
+	 */
+	function getPrototype(value) {
+	  return nativeGetPrototype(Object(value));
+	}
+
+	module.exports = getPrototype;
+
+
+/***/ },
 /* 7 */
-/***/function (module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function (process) {
-		/**
-  * Copyright 2013-2015, Facebook, Inc.
-  * All rights reserved.
-  *
-  * This source code is licensed under the BSD-style license found in the
-  * LICENSE file in the root directory of this source tree. An additional grant
-  * of patent rights can be found in the PATENTS file in the same directory.
-  *
-  * @providesModule invariant
-  */
+	/**
+	 * Checks if `value` is a host object in IE < 9.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+	 */
+	function isHostObject(value) {
+	  // Many host objects are `Object` objects that can coerce to strings
+	  // despite having improperly defined `toString` methods.
+	  var result = false;
+	  if (value != null && typeof value.toString != 'function') {
+	    try {
+	      result = !!(value + '');
+	    } catch (e) {}
+	  }
+	  return result;
+	}
 
-		"use strict";
+	module.exports = isHostObject;
 
-		/**
-   * Use invariant() to assert state which your program assumes to be true.
-   *
-   * Provide sprintf-style format (only %s is supported) and arguments
-   * to provide information about what broke and what you were
-   * expecting.
-   *
-   * The invariant message will be stripped in production, but the invariant
-   * will remain to ensure logic does not differ in production.
-   */
 
-		var invariant = function invariant(condition, format, a, b, c, d, e, f) {
-			if (process.env.NODE_ENV !== 'production') {
-				if (format === undefined) {
-					throw new Error('invariant requires an error message argument');
-				}
-			}
-
-			if (!condition) {
-				var error;
-				if (format === undefined) {
-					error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-				} else {
-					var args = [a, b, c, d, e, f];
-					var argIndex = 0;
-					error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
-						return args[argIndex++];
-					}));
-				}
-
-				error.framesToPop = 1; // we don't care about invariant's own frame
-				throw error;
-			}
-		};
-
-		module.exports = invariant;
-		/* WEBPACK VAR INJECTION */
-	}).call(exports, __webpack_require__(6));
-
-	/***/
-},
+/***/ },
 /* 8 */
-/***/function (module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.setAppState = setAppState;
-	exports.snapshot = snapshot;
-	exports.saveInitialSnapshot = saveInitialSnapshot;
-	exports.filterSnapshots = filterSnapshots;
-
-	var _functions = __webpack_require__(9);
-
-	var fn = _interopRequireWildcard(_functions);
-
-	function _interopRequireWildcard(obj) {
-		if (obj && obj.__esModule) {
-			return obj;
-		} else {
-			var newObj = {};if (obj != null) {
-				for (var key in obj) {
-					if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-				}
-			}newObj['default'] = obj;return newObj;
-		}
+	/**
+	 * Checks if `value` is object-like. A value is object-like if it's not `null`
+	 * and has a `typeof` result of "object".
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 * @example
+	 *
+	 * _.isObjectLike({});
+	 * // => true
+	 *
+	 * _.isObjectLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObjectLike(_.noop);
+	 * // => false
+	 *
+	 * _.isObjectLike(null);
+	 * // => false
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
 	}
 
-	function setAppState(instance, data, onStore) {
-		var obj = instance.deserialize(data);
-		fn.eachObject(function (key, value) {
-			var store = instance.stores[key];
-			if (store) {
-				(function () {
-					var config = store.StoreModel.config;
+	module.exports = isObjectLike;
 
-					var state = store.state;
-					if (config.onDeserialize) obj[key] = config.onDeserialize(value) || value;
-					if (fn.isMutableObject(state)) {
-						fn.eachObject(function (k) {
-							return delete state[k];
-						}, [state]);
-						fn.assign(state, obj[key]);
-					} else {
-						store.state = obj[key];
-					}
-					onStore(store, store.state);
-				})();
-			}
-		}, [obj]);
-	}
 
-	function snapshot(instance) {
-		var storeNames = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
-
-		var stores = storeNames.length ? storeNames : Object.keys(instance.stores);
-		return stores.reduce(function (obj, storeHandle) {
-			var storeName = storeHandle.displayName || storeHandle;
-			var store = instance.stores[storeName];
-			var config = store.StoreModel.config;
-
-			store.lifecycle('snapshot');
-			var customSnapshot = config.onSerialize && config.onSerialize(store.state);
-			obj[storeName] = customSnapshot ? customSnapshot : store.getState();
-			return obj;
-		}, {});
-	}
-
-	function saveInitialSnapshot(instance, key) {
-		var state = instance.deserialize(instance.serialize(instance.stores[key].state));
-		instance._initSnapshot[key] = state;
-		instance._lastSnapshot[key] = state;
-	}
-
-	function filterSnapshots(instance, state, stores) {
-		return stores.reduce(function (obj, store) {
-			var storeName = store.displayName || store;
-			if (!state[storeName]) {
-				throw new ReferenceError(String(storeName) + ' is not a valid store');
-			}
-			obj[storeName] = state[storeName];
-			return obj;
-		}, {});
-	}
-
-	/***/
-},
+/***/ },
 /* 9 */
-/***/function (module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
+	/* WEBPACK VAR INJECTION */(function(global) {/* global window */
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.isMutableObject = isMutableObject;
-	exports.eachObject = eachObject;
-	exports.assign = assign;
-	var isFunction = exports.isFunction = function isFunction(x) {
-		return typeof x === 'function';
-	};
+	module.exports = __webpack_require__(10)(global || window || this);
 
-	function isMutableObject(target) {
-		var Ctor = target.constructor;
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-		return !!target && Object.prototype.toString.call(target) === '[object Object]' && isFunction(Ctor) && !Object.isFrozen(target) && (Ctor instanceof Ctor || target.type === 'AltStore');
-	}
-
-	function eachObject(f, o) {
-		o.forEach(function (from) {
-			Object.keys(Object(from)).forEach(function (key) {
-				f(key, from[key]);
-			});
-		});
-	}
-
-	function assign(target) {
-		for (var _len = arguments.length, source = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-			source[_key - 1] = arguments[_key];
-		}
-
-		eachObject(function (key, value) {
-			return target[key] = value;
-		}, source);
-		return target;
-	}
-
-	/***/
-},
+/***/ },
 /* 10 */
-/***/function (module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.createStoreConfig = createStoreConfig;
-	exports.transformStore = transformStore;
-	exports.createStoreFromObject = createStoreFromObject;
-	exports.createStoreFromClass = createStoreFromClass;
+	module.exports = function symbolObservablePonyfill(root) {
+		var result;
+		var Symbol = root.Symbol;
 
-	var _AltUtils = __webpack_require__(11);
-
-	var utils = _interopRequireWildcard(_AltUtils);
-
-	var _functions = __webpack_require__(9);
-
-	var fn = _interopRequireWildcard(_functions);
-
-	var _AltStore = __webpack_require__(12);
-
-	var _AltStore2 = _interopRequireDefault(_AltStore);
-
-	var _StoreMixin = __webpack_require__(14);
-
-	var _StoreMixin2 = _interopRequireDefault(_StoreMixin);
-
-	function _interopRequireDefault(obj) {
-		return obj && obj.__esModule ? obj : { 'default': obj };
-	}
-
-	function _interopRequireWildcard(obj) {
-		if (obj && obj.__esModule) {
-			return obj;
-		} else {
-			var newObj = {};if (obj != null) {
-				for (var key in obj) {
-					if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-				}
-			}newObj['default'] = obj;return newObj;
-		}
-	}
-
-	function _classCallCheck(instance, Constructor) {
-		if (!(instance instanceof Constructor)) {
-			throw new TypeError("Cannot call a class as a function");
-		}
-	}
-
-	function _possibleConstructorReturn(self, call) {
-		if (!self) {
-			throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-		}return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-	}
-
-	function _inherits(subClass, superClass) {
-		if (typeof superClass !== "function" && superClass !== null) {
-			throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-		}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-	}
-
-	function doSetState(store, storeInstance, state) {
-		if (!state) {
-			return;
-		}
-
-		var config = storeInstance.StoreModel.config;
-
-		var nextState = fn.isFunction(state) ? state(storeInstance.state) : state;
-
-		storeInstance.state = config.setState.call(store, storeInstance.state, nextState);
-
-		if (!store.alt.dispatcher.isDispatching()) {
-			store.emitChange();
-		}
-	}
-
-	function createPrototype(proto, alt, key, extras) {
-		return fn.assign(proto, _StoreMixin2.default, {
-			displayName: key,
-			alt: alt,
-			dispatcher: alt.dispatcher,
-			preventDefault: function () {
-				function preventDefault() {
-					this.getInstance().preventDefault = true;
-				}
-
-				return preventDefault;
-			}(),
-
-			boundListeners: [],
-			lifecycleEvents: {},
-			actionListeners: {},
-			publicMethods: {},
-			handlesOwnErrors: false
-		}, extras);
-	}
-
-	function createStoreConfig(globalConfig, StoreModel) {
-		StoreModel.config = fn.assign({
-			getState: function () {
-				function getState(state) {
-					if (Array.isArray(state)) {
-						return state.slice();
-					} else if (fn.isMutableObject(state)) {
-						return fn.assign({}, state);
-					}
-
-					return state;
-				}
-
-				return getState;
-			}(),
-			setState: function () {
-				function setState(currentState, nextState) {
-					if (fn.isMutableObject(nextState)) {
-						return fn.assign(currentState, nextState);
-					}
-					return nextState;
-				}
-
-				return setState;
-			}()
-		}, globalConfig, StoreModel.config);
-	}
-
-	function transformStore(transforms, StoreModel) {
-		return transforms.reduce(function (Store, transform) {
-			return transform(Store);
-		}, StoreModel);
-	}
-
-	function createStoreFromObject(alt, StoreModel, key) {
-		var storeInstance = void 0;
-
-		var StoreProto = createPrototype({}, alt, key, fn.assign({
-			getInstance: function () {
-				function getInstance() {
-					return storeInstance;
-				}
-
-				return getInstance;
-			}(),
-			setState: function () {
-				function setState(nextState) {
-					doSetState(this, storeInstance, nextState);
-				}
-
-				return setState;
-			}()
-		}, StoreModel));
-
-		// bind the store listeners
-		/* istanbul ignore else */
-		if (StoreProto.bindListeners) {
-			_StoreMixin2.default.bindListeners.call(StoreProto, StoreProto.bindListeners);
-		}
-		/* istanbul ignore else */
-		if (StoreProto.observe) {
-			_StoreMixin2.default.bindListeners.call(StoreProto, StoreProto.observe(alt));
-		}
-
-		// bind the lifecycle events
-		/* istanbul ignore else */
-		if (StoreProto.lifecycle) {
-			fn.eachObject(function (eventName, event) {
-				_StoreMixin2.default.on.call(StoreProto, eventName, event);
-			}, [StoreProto.lifecycle]);
-		}
-
-		// create the instance and fn.assign the public methods to the instance
-		storeInstance = fn.assign(new _AltStore2.default(alt, StoreProto, StoreProto.state !== undefined ? StoreProto.state : {}, StoreModel), StoreProto.publicMethods, {
-			displayName: key,
-			config: StoreModel.config
-		});
-
-		return storeInstance;
-	}
-
-	function createStoreFromClass(alt, StoreModel, key) {
-		var storeInstance = void 0;
-		var config = StoreModel.config;
-
-		// Creating a class here so we don't overload the provided store's
-		// prototype with the mixin behaviour and I'm extending from StoreModel
-		// so we can inherit any extensions from the provided store.
-
-		var Store = function (_StoreModel) {
-			_inherits(Store, _StoreModel);
-
-			function Store() {
-				_classCallCheck(this, Store);
-
-				for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-					args[_key2] = arguments[_key2];
-				}
-
-				return _possibleConstructorReturn(this, _StoreModel.call.apply(_StoreModel, [this].concat(args)));
+		if (typeof Symbol === 'function') {
+			if (Symbol.observable) {
+				result = Symbol.observable;
+			} else {
+				result = Symbol('observable');
+				Symbol.observable = result;
 			}
-
-			return Store;
-		}(StoreModel);
-
-		createPrototype(Store.prototype, alt, key, {
-			type: 'AltStore',
-			getInstance: function () {
-				function getInstance() {
-					return storeInstance;
-				}
-
-				return getInstance;
-			}(),
-			setState: function () {
-				function setState(nextState) {
-					doSetState(this, storeInstance, nextState);
-				}
-
-				return setState;
-			}()
-		});
-
-		for (var _len = arguments.length, argsForClass = Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
-			argsForClass[_key - 3] = arguments[_key];
+		} else {
+			result = '@@observable';
 		}
 
-		var store = new (Function.prototype.bind.apply(Store, [null].concat(argsForClass)))();
+		return result;
+	};
 
-		/* istanbul ignore next */
-		if (config.bindListeners) store.bindListeners(config.bindListeners);
-		/* istanbul ignore next */
-		if (config.datasource) store.registerAsync(config.datasource);
 
-		storeInstance = fn.assign(new _AltStore2.default(alt, store, store.state !== undefined ? store.state : store, StoreModel), utils.getInternalMethods(StoreModel), config.publicMethods, { displayName: key });
-
-		return storeInstance;
-	}
-
-	/***/
-},
+/***/ },
 /* 11 */
-/***/function (module, exports, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var _extends = Object.assign || function (target) {
-		for (var i = 1; i < arguments.length; i++) {
-			var source = arguments[i];for (var key in source) {
-				if (Object.prototype.hasOwnProperty.call(source, key)) {
-					target[key] = source[key];
-				}
-			}
-		}return target;
-	};
+	exports.__esModule = true;
+	exports["default"] = combineReducers;
 
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.getInternalMethods = getInternalMethods;
-	exports.getPrototypeChain = getPrototypeChain;
-	exports.warn = warn;
-	exports.uid = uid;
-	exports.formatAsConstant = formatAsConstant;
-	exports.dispatchIdentity = dispatchIdentity;
-	exports.fsa = fsa;
-	exports.dispatch = dispatch;
+	var _createStore = __webpack_require__(4);
 
-	var _functions = __webpack_require__(9);
+	var _isPlainObject = __webpack_require__(5);
 
-	var fn = _interopRequireWildcard(_functions);
+	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-	function _interopRequireWildcard(obj) {
-		if (obj && obj.__esModule) {
-			return obj;
-		} else {
-			var newObj = {};if (obj != null) {
-				for (var key in obj) {
-					if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-				}
-			}newObj['default'] = obj;return newObj;
-		}
+	var _warning = __webpack_require__(12);
+
+	var _warning2 = _interopRequireDefault(_warning);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function getUndefinedStateErrorMessage(key, action) {
+	  var actionType = action && action.type;
+	  var actionName = actionType && '"' + actionType.toString() + '"' || 'an action';
+
+	  return 'Given action ' + actionName + ', reducer "' + key + '" returned undefined. ' + 'To ignore an action, you must explicitly return the previous state.';
 	}
 
-	/*eslint-disable*/
-	var builtIns = Object.getOwnPropertyNames(NoopClass);
-	var builtInProto = Object.getOwnPropertyNames(NoopClass.prototype);
-	/*eslint-enable*/
+	function getUnexpectedStateShapeWarningMessage(inputState, reducers, action) {
+	  var reducerKeys = Object.keys(reducers);
+	  var argumentName = action && action.type === _createStore.ActionTypes.INIT ? 'initialState argument passed to createStore' : 'previous state received by the reducer';
 
-	function getInternalMethods(Obj, isProto) {
-		var excluded = isProto ? builtInProto : builtIns;
-		var obj = isProto ? Obj.prototype : Obj;
-		return Object.getOwnPropertyNames(obj).reduce(function (value, m) {
-			if (excluded.indexOf(m) !== -1) {
-				return value;
-			}
+	  if (reducerKeys.length === 0) {
+	    return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
+	  }
 
-			value[m] = obj[m];
-			return value;
-		}, {});
+	  if (!(0, _isPlainObject2["default"])(inputState)) {
+	    return 'The ' + argumentName + ' has unexpected type of "' + {}.toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + '". Expected argument to be an object with the following ' + ('keys: "' + reducerKeys.join('", "') + '"');
+	  }
+
+	  var unexpectedKeys = Object.keys(inputState).filter(function (key) {
+	    return !reducers.hasOwnProperty(key);
+	  });
+
+	  if (unexpectedKeys.length > 0) {
+	    return 'Unexpected ' + (unexpectedKeys.length > 1 ? 'keys' : 'key') + ' ' + ('"' + unexpectedKeys.join('", "') + '" found in ' + argumentName + '. ') + 'Expected to find one of the known reducer keys instead: ' + ('"' + reducerKeys.join('", "') + '". Unexpected keys will be ignored.');
+	  }
 	}
 
-	function getPrototypeChain(Obj) {
-		var methods = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	function assertReducerSanity(reducers) {
+	  Object.keys(reducers).forEach(function (key) {
+	    var reducer = reducers[key];
+	    var initialState = reducer(undefined, { type: _createStore.ActionTypes.INIT });
 
-		return Obj === Function.prototype ? methods : getPrototypeChain(Object.getPrototypeOf(Obj), fn.assign(methods, getInternalMethods(Obj, true)));
+	    if (typeof initialState === 'undefined') {
+	      throw new Error('Reducer "' + key + '" returned undefined during initialization. ' + 'If the state passed to the reducer is undefined, you must ' + 'explicitly return the initial state. The initial state may ' + 'not be undefined.');
+	    }
+
+	    var type = '@@redux/PROBE_UNKNOWN_ACTION_' + Math.random().toString(36).substring(7).split('').join('.');
+	    if (typeof reducer(undefined, { type: type }) === 'undefined') {
+	      throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'t try to handle ' + _createStore.ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
+	    }
+	  });
 	}
 
-	function warn(msg) {
-		/* istanbul ignore else */
-		/*eslint-disable*/
-		if (typeof console !== 'undefined') {
-			console.warn(new ReferenceError(msg));
-		}
-		/*eslint-enable*/
+	/**
+	 * Turns an object whose values are different reducer functions, into a single
+	 * reducer function. It will call every child reducer, and gather their results
+	 * into a single state object, whose keys correspond to the keys of the passed
+	 * reducer functions.
+	 *
+	 * @param {Object} reducers An object whose values correspond to different
+	 * reducer functions that need to be combined into one. One handy way to obtain
+	 * it is to use ES6 `import * as reducers` syntax. The reducers may never return
+	 * undefined for any action. Instead, they should return their initial state
+	 * if the state passed to them was undefined, and the current state for any
+	 * unrecognized action.
+	 *
+	 * @returns {Function} A reducer function that invokes every reducer inside the
+	 * passed object, and builds a state object with the same shape.
+	 */
+	function combineReducers(reducers) {
+	  var reducerKeys = Object.keys(reducers);
+	  var finalReducers = {};
+	  for (var i = 0; i < reducerKeys.length; i++) {
+	    var key = reducerKeys[i];
+	    if (typeof reducers[key] === 'function') {
+	      finalReducers[key] = reducers[key];
+	    }
+	  }
+	  var finalReducerKeys = Object.keys(finalReducers);
+
+	  var sanityError;
+	  try {
+	    assertReducerSanity(finalReducers);
+	  } catch (e) {
+	    sanityError = e;
+	  }
+
+	  return function combination() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var action = arguments[1];
+
+	    if (sanityError) {
+	      throw sanityError;
+	    }
+
+	    if (process.env.NODE_ENV !== 'production') {
+	      var warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action);
+	      if (warningMessage) {
+	        (0, _warning2["default"])(warningMessage);
+	      }
+	    }
+
+	    var hasChanged = false;
+	    var nextState = {};
+	    for (var i = 0; i < finalReducerKeys.length; i++) {
+	      var key = finalReducerKeys[i];
+	      var reducer = finalReducers[key];
+	      var previousStateForKey = state[key];
+	      var nextStateForKey = reducer(previousStateForKey, action);
+	      if (typeof nextStateForKey === 'undefined') {
+	        var errorMessage = getUndefinedStateErrorMessage(key, action);
+	        throw new Error(errorMessage);
+	      }
+	      nextState[key] = nextStateForKey;
+	      hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
+	    }
+	    return hasChanged ? nextState : state;
+	  };
 	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
-	function uid(container, name) {
-		var count = 0;
-		var key = name;
-		while (Object.hasOwnProperty.call(container, key)) {
-			key = name + String(++count);
-		}
-		return key;
-	}
-
-	function formatAsConstant(name) {
-		return name.replace(/[a-z]([A-Z])/g, function (i) {
-			return String(i[0]) + '_' + String(i[1].toLowerCase());
-		}).toUpperCase();
-	}
-
-	function dispatchIdentity(x) {
-		if (x === undefined) return null;
-
-		for (var _len = arguments.length, a = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-			a[_key - 1] = arguments[_key];
-		}
-
-		return a.length ? [x].concat(a) : x;
-	}
-
-	function fsa(id, type, payload, details) {
-		return {
-			type: type,
-			payload: payload,
-			meta: _extends({
-				dispatchId: id
-			}, details),
-
-			id: id,
-			action: type,
-			data: payload,
-			details: details
-		};
-	}
-
-	function dispatch(id, actionObj, payload, alt) {
-		var data = actionObj.dispatch(payload);
-		if (data === undefined) return null;
-
-		var type = actionObj.id;
-		var namespace = type;
-		var name = type;
-		var details = { id: type, namespace: namespace, name: name };
-
-		var dispatchLater = function dispatchLater(x) {
-			return alt.dispatch(type, x, details);
-		};
-
-		if (fn.isFunction(data)) return data(dispatchLater, alt);
-
-		// XXX standardize this
-		return alt.dispatcher.dispatch(fsa(id, type, data, details));
-	}
-
-	/* istanbul ignore next */
-	function NoopClass() {}
-
-	/***/
-},
+/***/ },
 /* 12 */
-/***/function (module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _functions = __webpack_require__(9);
-
-	var fn = _interopRequireWildcard(_functions);
-
-	var _transmitter = __webpack_require__(13);
-
-	var _transmitter2 = _interopRequireDefault(_transmitter);
-
-	function _interopRequireDefault(obj) {
-		return obj && obj.__esModule ? obj : { 'default': obj };
+	exports.__esModule = true;
+	exports["default"] = warning;
+	/**
+	 * Prints a warning in the console if it exists.
+	 *
+	 * @param {String} message The warning message.
+	 * @returns {void}
+	 */
+	function warning(message) {
+	  /* eslint-disable no-console */
+	  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+	    console.error(message);
+	  }
+	  /* eslint-enable no-console */
+	  try {
+	    // This error was thrown as a convenience so that if you enable
+	    // "break on all exceptions" in your console,
+	    // it would pause the execution at this line.
+	    throw new Error(message);
+	    /* eslint-disable no-empty */
+	  } catch (e) {}
+	  /* eslint-enable no-empty */
 	}
 
-	function _interopRequireWildcard(obj) {
-		if (obj && obj.__esModule) {
-			return obj;
-		} else {
-			var newObj = {};if (obj != null) {
-				for (var key in obj) {
-					if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-				}
-			}newObj['default'] = obj;return newObj;
-		}
-	}
-
-	function _classCallCheck(instance, Constructor) {
-		if (!(instance instanceof Constructor)) {
-			throw new TypeError("Cannot call a class as a function");
-		}
-	}
-
-	var AltStore = function () {
-		function AltStore(alt, model, state, StoreModel) {
-			var _this = this;
-
-			_classCallCheck(this, AltStore);
-
-			var lifecycleEvents = model.lifecycleEvents;
-			this.transmitter = (0, _transmitter2.default)();
-			this.lifecycle = function (event, x) {
-				if (lifecycleEvents[event]) lifecycleEvents[event].push(x);
-			};
-			this.state = state;
-
-			this.alt = alt;
-			this.preventDefault = false;
-			this.displayName = model.displayName;
-			this.boundListeners = model.boundListeners;
-			this.StoreModel = StoreModel;
-			this.reduce = model.reduce || function (x) {
-				return x;
-			};
-
-			var output = model.output || function (x) {
-				return x;
-			};
-
-			this.emitChange = function () {
-				return _this.transmitter.push(output(_this.state));
-			};
-
-			var handleDispatch = function handleDispatch(f, payload) {
-				try {
-					return f();
-				} catch (e) {
-					if (model.handlesOwnErrors) {
-						_this.lifecycle('error', {
-							error: e,
-							payload: payload,
-							state: _this.state
-						});
-						return false;
-					}
-
-					throw e;
-				}
-			};
-
-			fn.assign(this, model.publicMethods);
-
-			// Register dispatcher
-			this.dispatchToken = alt.dispatcher.register(function (payload) {
-				_this.preventDefault = false;
-
-				_this.lifecycle('beforeEach', {
-					payload: payload,
-					state: _this.state
-				});
-
-				var actionHandlers = model.actionListeners[payload.action];
-
-				if (actionHandlers || model.otherwise) {
-					var result = void 0;
-
-					if (actionHandlers) {
-						result = handleDispatch(function () {
-							return actionHandlers.filter(Boolean).every(function (handler) {
-								return handler.call(model, payload.data, payload.action) !== false;
-							});
-						}, payload);
-					} else {
-						result = handleDispatch(function () {
-							return model.otherwise(payload.data, payload.action);
-						}, payload);
-					}
-
-					if (result !== false && !_this.preventDefault) _this.emitChange();
-				}
-
-				if (model.reduce) {
-					handleDispatch(function () {
-						var value = model.reduce(_this.state, payload);
-						if (value !== undefined) _this.state = value;
-					}, payload);
-					if (!_this.preventDefault) _this.emitChange();
-				}
-
-				_this.lifecycle('afterEach', {
-					payload: payload,
-					state: _this.state
-				});
-			});
-
-			this.lifecycle('init');
-		}
-
-		AltStore.prototype.listen = function () {
-			function listen(cb) {
-				var _this2 = this;
-
-				if (!fn.isFunction(cb)) throw new TypeError('listen expects a function');
-				this.transmitter.subscribe(cb);
-				return function () {
-					return _this2.unlisten(cb);
-				};
-			}
-
-			return listen;
-		}();
-
-		AltStore.prototype.unlisten = function () {
-			function unlisten(cb) {
-				this.lifecycle('unlisten');
-				this.transmitter.unsubscribe(cb);
-			}
-
-			return unlisten;
-		}();
-
-		AltStore.prototype.getState = function () {
-			function getState() {
-				return this.StoreModel.config.getState.call(this, this.state);
-			}
-
-			return getState;
-		}();
-
-		return AltStore;
-	}();
-
-	exports.default = AltStore;
-	module.exports = exports['default'];
-
-	/***/
-},
+/***/ },
 /* 13 */
-/***/function (module, exports) {
+/***/ function(module, exports) {
 
 	'use strict';
 
-	function transmitter() {
-		var subscriptions = [];
-		var pushing = false;
-		var toUnsubscribe = [];
-
-		var unsubscribe = function unsubscribe(onChange) {
-			if (pushing) {
-				toUnsubscribe.push(onChange);
-				return;
-			}
-			var id = subscriptions.indexOf(onChange);
-			if (id >= 0) subscriptions.splice(id, 1);
-		};
-
-		var subscribe = function subscribe(onChange) {
-			subscriptions.push(onChange);
-			var dispose = function dispose() {
-				return unsubscribe(onChange);
-			};
-			return { dispose: dispose };
-		};
-
-		var push = function push(value) {
-			if (pushing) throw new Error('Cannot push while pushing');
-			pushing = true;
-			try {
-				subscriptions.forEach(function (subscription) {
-					return subscription(value);
-				});
-			} finally {
-				pushing = false;
-				toUnsubscribe = toUnsubscribe.filter(unsubscribe);
-			}
-		};
-
-		return { subscribe: subscribe, push: push, unsubscribe: unsubscribe, subscriptions: subscriptions };
+	exports.__esModule = true;
+	exports["default"] = bindActionCreators;
+	function bindActionCreator(actionCreator, dispatch) {
+	  return function () {
+	    return dispatch(actionCreator.apply(undefined, arguments));
+	  };
 	}
 
-	module.exports = transmitter;
+	/**
+	 * Turns an object whose values are action creators, into an object with the
+	 * same keys, but with every function wrapped into a `dispatch` call so they
+	 * may be invoked directly. This is just a convenience method, as you can call
+	 * `store.dispatch(MyActionCreators.doSomething())` yourself just fine.
+	 *
+	 * For convenience, you can also pass a single function as the first argument,
+	 * and get a function in return.
+	 *
+	 * @param {Function|Object} actionCreators An object whose values are action
+	 * creator functions. One handy way to obtain it is to use ES6 `import * as`
+	 * syntax. You may also pass a single function.
+	 *
+	 * @param {Function} dispatch The `dispatch` function available on your Redux
+	 * store.
+	 *
+	 * @returns {Function|Object} The object mimicking the original object, but with
+	 * every action creator wrapped into the `dispatch` call. If you passed a
+	 * function as `actionCreators`, the return value will also be a single
+	 * function.
+	 */
+	function bindActionCreators(actionCreators, dispatch) {
+	  if (typeof actionCreators === 'function') {
+	    return bindActionCreator(actionCreators, dispatch);
+	  }
 
-	/***/
-},
+	  if (typeof actionCreators !== 'object' || actionCreators === null) {
+	    throw new Error('bindActionCreators expected an object or a function, instead received ' + (actionCreators === null ? 'null' : typeof actionCreators) + '. ' + 'Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?');
+	  }
+
+	  var keys = Object.keys(actionCreators);
+	  var boundActionCreators = {};
+	  for (var i = 0; i < keys.length; i++) {
+	    var key = keys[i];
+	    var actionCreator = actionCreators[key];
+	    if (typeof actionCreator === 'function') {
+	      boundActionCreators[key] = bindActionCreator(actionCreator, dispatch);
+	    }
+	  }
+	  return boundActionCreators;
+	}
+
+/***/ },
 /* 14 */
-/***/function (module, exports, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
+	exports.__esModule = true;
 
-	var _transmitter = __webpack_require__(13);
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _transmitter2 = _interopRequireDefault(_transmitter);
+	exports["default"] = applyMiddleware;
 
-	var _functions = __webpack_require__(9);
+	var _compose = __webpack_require__(15);
 
-	var fn = _interopRequireWildcard(_functions);
+	var _compose2 = _interopRequireDefault(_compose);
 
-	function _interopRequireWildcard(obj) {
-		if (obj && obj.__esModule) {
-			return obj;
-		} else {
-			var newObj = {};if (obj != null) {
-				for (var key in obj) {
-					if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-				}
-			}newObj['default'] = obj;return newObj;
-		}
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	/**
+	 * Creates a store enhancer that applies middleware to the dispatch method
+	 * of the Redux store. This is handy for a variety of tasks, such as expressing
+	 * asynchronous actions in a concise manner, or logging every action payload.
+	 *
+	 * See `redux-thunk` package as an example of the Redux middleware.
+	 *
+	 * Because middleware is potentially asynchronous, this should be the first
+	 * store enhancer in the composition chain.
+	 *
+	 * Note that each middleware will be given the `dispatch` and `getState` functions
+	 * as named arguments.
+	 *
+	 * @param {...Function} middlewares The middleware chain to be applied.
+	 * @returns {Function} A store enhancer applying the middleware.
+	 */
+	function applyMiddleware() {
+	  for (var _len = arguments.length, middlewares = Array(_len), _key = 0; _key < _len; _key++) {
+	    middlewares[_key] = arguments[_key];
+	  }
+
+	  return function (createStore) {
+	    return function (reducer, initialState, enhancer) {
+	      var store = createStore(reducer, initialState, enhancer);
+	      var _dispatch = store.dispatch;
+	      var chain = [];
+
+	      var middlewareAPI = {
+	        getState: store.getState,
+	        dispatch: function dispatch(action) {
+	          return _dispatch(action);
+	        }
+	      };
+	      chain = middlewares.map(function (middleware) {
+	        return middleware(middlewareAPI);
+	      });
+	      _dispatch = _compose2["default"].apply(undefined, chain)(store.dispatch);
+
+	      return _extends({}, store, {
+	        dispatch: _dispatch
+	      });
+	    };
+	  };
 	}
 
-	function _interopRequireDefault(obj) {
-		return obj && obj.__esModule ? obj : { 'default': obj };
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports["default"] = compose;
+	/**
+	 * Composes single-argument functions from right to left. The rightmost
+	 * function can take multiple arguments as it provides the signature for
+	 * the resulting composite function.
+	 *
+	 * @param {...Function} funcs The functions to compose.
+	 * @returns {Function} A function obtained by composing the argument functions
+	 * from right to left. For example, compose(f, g, h) is identical to doing
+	 * (...args) => f(g(h(...args))).
+	 */
+
+	function compose() {
+	  for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
+	    funcs[_key] = arguments[_key];
+	  }
+
+	  if (funcs.length === 0) {
+	    return function (arg) {
+	      return arg;
+	    };
+	  } else {
+	    var _ret = function () {
+	      var last = funcs[funcs.length - 1];
+	      var rest = funcs.slice(0, -1);
+	      return {
+	        v: function v() {
+	          return rest.reduceRight(function (composed, f) {
+	            return f(composed);
+	          }, last.apply(undefined, arguments));
+	        }
+	      };
+	    }();
+
+	    if (typeof _ret === "object") return _ret.v;
+	  }
 	}
 
-	var StoreMixin = {
-		waitFor: function () {
-			function waitFor() {
-				for (var _len = arguments.length, sources = Array(_len), _key = 0; _key < _len; _key++) {
-					sources[_key] = arguments[_key];
-				}
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
 
-				if (!sources.length) {
-					throw new ReferenceError('Dispatch tokens not provided');
-				}
+	'use strict';
 
-				var sourcesArray = sources;
-				if (sources.length === 1) {
-					sourcesArray = Array.isArray(sources[0]) ? sources[0] : sources;
-				}
 
-				var tokens = sourcesArray.map(function (source) {
-					return source.dispatchToken || source;
-				});
+	'use strict;';
 
-				this.dispatcher.waitFor(tokens);
-			}
+	var Redux = __webpack_require__(2),
+	    InsultAction = __webpack_require__(17),
+	    insultRaw = __webpack_require__(18),
+	    insult = function insult() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+	    var action = arguments[1];
 
-			return waitFor;
-		}(),
-		exportAsync: function () {
-			function exportAsync(asyncMethods) {
-				this.registerAsync(asyncMethods);
-			}
+	    switch (action.type) {
+	        case InsultAction.RECEIVED:
+	            console.log('updating');
 
-			return exportAsync;
-		}(),
-		registerAsync: function () {
-			function registerAsync(asyncDef) {
-				var _this = this;
+	            return action.insult;
 
-				var loadCounter = 0;
+	        case InsultAction.REQUESTED:
+	            console.log('fetching');
 
-				var asyncMethods = fn.isFunction(asyncDef) ? asyncDef(this.alt) : asyncDef;
+	            return null;
 
-				var toExport = Object.keys(asyncMethods).reduce(function (publicMethods, methodName) {
-					var desc = asyncMethods[methodName];
-					var spec = fn.isFunction(desc) ? desc(_this) : desc;
-
-					var validHandlers = ['success', 'error', 'loading'];
-					validHandlers.forEach(function (handler) {
-						if (spec[handler] && !spec[handler].id) {
-							throw new Error(String(handler) + ' handler must be an action function');
-						}
-					});
-
-					publicMethods[methodName] = function () {
-						for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-							args[_key2] = arguments[_key2];
-						}
-
-						var state = _this.getInstance().getState();
-						var value = spec.local && spec.local.apply(spec, [state].concat(args));
-						var shouldFetch = spec.shouldFetch ? spec.shouldFetch.apply(spec, [state].concat(args))
-						/*eslint-disable*/
-						: value == null;
-						/*eslint-enable*/
-						var intercept = spec.interceptResponse || function (x) {
-							return x;
-						};
-
-						var makeActionHandler = function () {
-							function makeActionHandler(action, isError) {
-								return function (x) {
-									var fire = function () {
-										function fire() {
-											loadCounter -= 1;
-											action(intercept(x, action, args));
-											if (isError) throw x;
-										}
-
-										return fire;
-									}();
-									return _this.alt.trapAsync ? function () {
-										return fire();
-									} : fire();
-								};
-							}
-
-							return makeActionHandler;
-						}();
-
-						// if we don't have it in cache then fetch it
-						if (shouldFetch) {
-							loadCounter += 1;
-							/* istanbul ignore else */
-							if (spec.loading) spec.loading(intercept(null, spec.loading, args));
-							return spec.remote.apply(spec, [state].concat(args)).then(makeActionHandler(spec.success), makeActionHandler(spec.error, 1));
-						}
-
-						// otherwise emit the change now
-						_this.emitChange();
-						return value;
-					};
-
-					return publicMethods;
-				}, {});
-
-				this.exportPublicMethods(toExport);
-				this.exportPublicMethods({
-					isLoading: function () {
-						function isLoading() {
-							return loadCounter > 0;
-						}
-
-						return isLoading;
-					}()
-				});
-			}
-
-			return registerAsync;
-		}(),
-		exportPublicMethods: function () {
-			function exportPublicMethods(methods) {
-				var _this2 = this;
-
-				fn.eachObject(function (methodName, value) {
-					if (!fn.isFunction(value)) {
-						throw new TypeError('exportPublicMethods expects a function');
-					}
-
-					_this2.publicMethods[methodName] = value;
-				}, [methods]);
-			}
-
-			return exportPublicMethods;
-		}(),
-		emitChange: function () {
-			function emitChange() {
-				this.getInstance().emitChange();
-			}
-
-			return emitChange;
-		}(),
-		on: function () {
-			function on(lifecycleEvent, handler) {
-				if (lifecycleEvent === 'error') this.handlesOwnErrors = true;
-				var bus = this.lifecycleEvents[lifecycleEvent] || (0, _transmitter2.default)();
-				this.lifecycleEvents[lifecycleEvent] = bus;
-				return bus.subscribe(handler.bind(this));
-			}
-
-			return on;
-		}(),
-		bindAction: function () {
-			function bindAction(symbol, handler) {
-				if (!symbol) {
-					throw new ReferenceError('Invalid action reference passed in');
-				}
-				if (!fn.isFunction(handler)) {
-					throw new TypeError('bindAction expects a function');
-				}
-
-				// You can pass in the constant or the function itself
-				var key = symbol.id ? symbol.id : symbol;
-				this.actionListeners[key] = this.actionListeners[key] || [];
-				this.actionListeners[key].push(handler.bind(this));
-				this.boundListeners.push(key);
-			}
-
-			return bindAction;
-		}(),
-		bindActions: function () {
-			function bindActions(actions) {
-				var _this3 = this;
-
-				fn.eachObject(function (action, symbol) {
-					var matchFirstCharacter = /./;
-					var assumedEventHandler = action.replace(matchFirstCharacter, function (x) {
-						return 'on' + String(x[0].toUpperCase());
-					});
-
-					if (_this3[action] && _this3[assumedEventHandler]) {
-						// If you have both action and onAction
-						throw new ReferenceError('You have multiple action handlers bound to an action: ' + (String(action) + ' and ' + String(assumedEventHandler)));
-					}
-
-					var handler = _this3[action] || _this3[assumedEventHandler];
-					if (handler) {
-						_this3.bindAction(symbol, handler);
-					}
-				}, [actions]);
-			}
-
-			return bindActions;
-		}(),
-		bindListeners: function () {
-			function bindListeners(obj) {
-				var _this4 = this;
-
-				fn.eachObject(function (methodName, symbol) {
-					var listener = _this4[methodName];
-
-					if (!listener) {
-						throw new ReferenceError(String(methodName) + ' defined but does not exist in ' + String(_this4.displayName));
-					}
-
-					if (Array.isArray(symbol)) {
-						symbol.forEach(function (action) {
-							_this4.bindAction(action, listener);
-						});
-					} else {
-						_this4.bindAction(symbol, listener);
-					}
-				}, [obj]);
-			}
-
-			return bindListeners;
-		}()
+	        default:
+	            return state;
+	    }
 	};
 
-	exports.default = StoreMixin;
-	module.exports = exports['default'];
+	module.exports = Redux.combineReducers({
+	    insult: insult
+	});
 
-	/***/
-},
-/* 15 */
-/***/function (module, exports, __webpack_require__) {
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports['default'] = makeAction;
+	var UPDATE = 'insultUpdate',
+	    REQUESTED = 'insultRequested',
+	    RECEIVED = 'insultReceived',
+	    InsultSource = __webpack_require__(18),
+	    InsultStore = __webpack_require__(1),
+	    requestInsult = function requestInsult() {
+	    return {
+	        type: REQUESTED
+	    };
+	},
+	    receiveInsult = function receiveInsult(insult) {
+	    return {
+	        type: RECEIVED,
+	        receivedAt: Date.now()
+	    };
+	},
+	    fetchInsults = function fetchInsults() {
+	    return function (dispatch) {
+	        InsultStore.dispatch(requestInsult());
 
-	var _functions = __webpack_require__(9);
+	        return InsultSource.fetch().then(function (insult) {
+	            return InsultStore.dispatch(receiveInsult(insult));
+	        });
+	    };
+	};
 
-	var fn = _interopRequireWildcard(_functions);
+	module.exports = {
+	    fetchInsults: fetchInsults,
+	    UPDATE: UPDATE,
+	    REQUESTED: REQUESTED,
+	    RECEIEVED: RECEIEVED
+	};
 
-	var _AltUtils = __webpack_require__(11);
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
 
-	var utils = _interopRequireWildcard(_AltUtils);
-
-	var _isPromise = __webpack_require__(16);
-
-	var _isPromise2 = _interopRequireDefault(_isPromise);
-
-	function _interopRequireDefault(obj) {
-		return obj && obj.__esModule ? obj : { 'default': obj };
-	}
-
-	function _interopRequireWildcard(obj) {
-		if (obj && obj.__esModule) {
-			return obj;
-		} else {
-			var newObj = {};if (obj != null) {
-				for (var key in obj) {
-					if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-				}
-			}newObj['default'] = obj;return newObj;
-		}
-	}
-
-	function makeAction(alt, namespace, name, implementation, obj) {
-		var id = utils.uid(alt._actionsRegistry, String(namespace) + '.' + String(name));
-		alt._actionsRegistry[id] = 1;
-
-		var data = { id: id, namespace: namespace, name: name };
-
-		var dispatch = function dispatch(payload) {
-			return alt.dispatch(id, payload, data);
-		};
-
-		// the action itself
-		var action = function action() {
-			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-				args[_key] = arguments[_key];
-			}
-
-			var invocationResult = implementation.apply(obj, args);
-			var actionResult = invocationResult;
-
-			// async functions that return promises should not be dispatched
-			if (invocationResult !== undefined && !(0, _isPromise2.default)(invocationResult)) {
-				if (fn.isFunction(invocationResult)) {
-					// inner function result should be returned as an action result
-					actionResult = invocationResult(dispatch, alt);
-				} else {
-					dispatch(invocationResult);
-				}
-			}
-
-			if (invocationResult === undefined) {
-				utils.warn('An action was called but nothing was dispatched');
-			}
-
-			return actionResult;
-		};
-		action.defer = function () {
-			for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-				args[_key2] = arguments[_key2];
-			}
-
-			return setTimeout(function () {
-				return action.apply(null, args);
-			});
-		};
-		action.id = id;
-		action.data = data;
-
-		// ensure each reference is unique in the namespace
-		var container = alt.actions[namespace];
-		var namespaceId = utils.uid(container, name);
-		container[namespaceId] = action;
-
-		// generate a constant
-		var constant = utils.formatAsConstant(namespaceId);
-		container[constant] = id;
-
-		return action;
-	}
-	module.exports = exports['default'];
-
-	/***/
-},
-/* 16 */
-/***/function (module, exports) {
-
-	module.exports = isPromise;
-
-	function isPromise(obj) {
-		return !!obj && ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
-	}
-
-	/***/
-},
-/* 17 */
-/***/function (module, exports) {
+	'use strict';
 
 	var insults = ['Fuck you', 'My balls your mouth', 'Jizzmop', 'Shithead', 'Tardjar', 'You\'ll never be the man your mother is', 'You must have been born on a highway, because that\'s where most accidents happen.', 'You\'re a failed abortion whose birth certificate is an ' + 'apology from the condom factory.', 'It looks like your face caught on fire and someone tried to put it out with a fork.', 'Your family tree is a cactus, because everybody on it is a prick.', 'You\'re so ugly Hello Kitty said goodbye to you.', 'You are so ugly that when your mama dropped you off at school ' + 'she got a fine for littering.', 'If you were twice as smart, you\'d still be stupid.', 'Do you have to leave so soon? I was just about to poison the tea.', 'You\'re so ugly when you popped out the doctor said aww what ' + 'a treasure and your mom said yeah lets bury it', 'Yeah, you\'re pretty. Pretty ugly.', 'Do you know how long it takes for your mother to take a crap? Nine months.', 'Out of 100,000 sperm, you were the fastest?', 'I would ask how old you are, but I know you can\'t count that high.', 'Hey, you have something on your chin...3rd one down.', 'If you want a good comeback you should go lick your mums face', 'So, a thought crossed your mind? Must have been a long and lonely journey', 'How did you get here? Did someone leave your cage open?', 'If I were a dog and you were a flower I\'d lift up my leg and give you a shower', 'Better at sex than anyone? Now all you need is a partner', 'I\'d like to see things from your point of view, too bad, ' + 'I can\'t shove my head that far arse..', 'You must have been born on a highway because that\'s where most accidents happen', 'I\'d slap you, but that would be animal abuse', 'It\'s scary to think that people like you are allowed to vote', 'Learn from your parents mistakes, use birth control', 'The smartest thing that ever came out your mouth was a penis', 'Don\'t let your mind wander, it\'s far too small to be out by itself', 'I called your boyfriend gay and he hit me with his purse', 'Earth is full. Go home.', 'Why don\'t you go play in traffic?', 'So you\'ve changed your mind? Does this one work any better?', 'Nice outfit. Go stand on a street corner, you could make some money', 'Your legs are like tescos. Open 24/7', 'You\'d better hide, the garbage collecter is coming', 'I\'m busy now, can I ignore you another time?'],
 	    getRandomInsult = function getRandomInsult() {
-		return insults[Math.round(Math.random() * (insults.length - 1))];
+	    return insults[Math.round(Math.random() * (insults.length - 1))];
 	},
 	    InsultSource = {
-		fetch: function fetch() {
-			return new Promise(function (resolve, reject) {
-				setTimeout(function () {
-					resolve(getRandomInsult());
-				}, 1000);
-			});
-		}
+	    fetch: function fetch() {
+	        return new Promise(function (resolve, reject) {
+	            setTimeout(function () {
+	                resolve(getRandomInsult());
+	            }, 1000);
+	        });
+	    }
 	};
 
 	module.exports = InsultSource;
 
-	/***/
-},
-/* 18 */
-/***/function (module, exports, __webpack_require__) {
-
-	var alt = __webpack_require__(2),
-	    InsultActions = __webpack_require__(1);
-
-	var InsultStore = function () {
-		function InsultStore() {
-			_classCallCheck2(this, InsultStore);
-
-			this.insult = null;
-			this.error = null;
-
-			this.bindListeners({
-				handleUpdateInsult: InsultActions.UPDATE_INSULT,
-				handleFetchInsult: InsultActions.FETCH_INSULT,
-				handleInsultFailed: InsultActions.INSULT_FAILED
-			});
-		}
-
-		_createClass(InsultStore, [{
-			key: 'handleUpdateInsult',
-			value: function handleUpdateInsult(insult) {
-				this.insult = insult;
-				this.error = null;
-			}
-		}, {
-			key: 'handleFetchInsult',
-			value: function handleFetchInsult() {
-				this.insult = null;
-			}
-		}, {
-			key: 'handleInsultFailed',
-			value: function handleInsultFailed(error) {
-				this.error = error;
-			}
-		}]);
-
-		return InsultStore;
-	}();
-
-	module.exports = alt.createStore(InsultStore, 'InsultStore');
-
-	/***/
-}]);
+/***/ }
+]);

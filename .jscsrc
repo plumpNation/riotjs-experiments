@@ -1,0 +1,6 @@
+{
+    "extract": ["*.tag", "*.html"],
+    "fileExtensions": [".js", ".tag"],
+    "preset": "crockford",
+    "requireCurlyBraces": null
+}

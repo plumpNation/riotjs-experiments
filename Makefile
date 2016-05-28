@@ -11,7 +11,7 @@ help:
 # target: build - Bundle your application
 build:
 	rm -rf build && \
-	npm run compile && npm run bundle && npm run transpile && \
+	npm run compile && npm run bundle && \
 	rm src/components/components.bundle.js
 
 # target: watch - Run build on file change

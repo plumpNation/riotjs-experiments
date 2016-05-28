@@ -18,5 +18,24 @@ module.exports = {
             filename: 'commons.js',
             name: 'commons'
         })
-    ]
+    ],
+
+    module: {
+        loaders: [
+            {
+                test: /\.(tag|js)?$/,
+                exclude: /node_modules/,
+                loader: 'babel', // 'babel-loader' is also a legal name to reference
+                query: {
+                    presets: ['es2015', 'stage-2'],
+                    plugins: [
+                        'transform-flow-strip-types',
+                        'transform-es2015-destructuring',
+                        'syntax-object-rest-spread',
+                        'transform-object-rest-spread'
+                    ]
+                }
+            }
+        ]
+    }
 }

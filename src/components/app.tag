@@ -3,12 +3,21 @@
     <button id="insult-adder" onclick="{ this.handleClick }">Insult me</button>
 
     <script>
-        var InsultActions = require('../actions/insult-actions');
+        // @flow
 
-        InsultActions.fetchInsult();
+        'use strict';
+
+        const InsultStore = require('../stores/insult-store'),
+            InsultAction  = require('../actions/insult-actions'),
+
+            fetchInsult = () => {
+                InsultStore.dispatch(InsultAction.fetchInsults());
+            };
+
+        fetchInsult();
 
         this.on('mount', () => this['insult-adder'].focus());
 
-        this.handleClick = () => InsultActions.fetchInsult();
+        this.handleClick = fetchInsult;
     </script>
 </app>

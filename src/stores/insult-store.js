@@ -1,30 +1,8 @@
-var alt = require('../alt'),
-    InsultActions = require('../actions/insult-actions');
+// @flow
 
-class InsultStore {
-    constructor() {
-        this.insult = null;
-        this.error  = null;
+'use strict';
 
-        this.bindListeners({
-            handleUpdateInsult: InsultActions.UPDATE_INSULT,
-            handleFetchInsult : InsultActions.FETCH_INSULT,
-            handleInsultFailed: InsultActions.INSULT_FAILED
-        });
-    }
+const Redux    = require('redux'),
+    insultsApp = require('./reducers');
 
-    handleUpdateInsult(insult) {
-        this.insult = insult;
-        this.error  = null;
-    }
-
-    handleFetchInsult() {
-        this.insult = null;
-    }
-
-    handleInsultFailed(error) {
-        this.error = error;
-    }
-}
-
-module.exports = alt.createStore(InsultStore, 'InsultStore');
+module.exports = Redux.createStore(insultsApp);

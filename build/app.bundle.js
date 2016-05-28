@@ -1,8 +1,6 @@
-'use strict';
-
-webpackJsonp([0, 2], [
+webpackJsonp([0,2],[
 /* 0 */
-/***/function (module, exports) {
+/***/ function(module, exports) {
 
 	'use strict';
 
@@ -10,5 +8,5 @@ webpackJsonp([0, 2], [
 
 	riot.mount('*');
 
-	/***/
-}]);
+/***/ }
+]);
