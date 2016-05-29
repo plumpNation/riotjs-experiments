@@ -24,8 +24,8 @@ const insults = [
         'How did you get here? Did someone leave your cage open?',
         'If I were a dog and you were a flower I\'d lift up my leg and give you a shower',
         'Better at sex than anyone? Now all you need is a partner',
-        'I\'d like to see things from your point of view, too bad, ' +
-            'I can\'t shove my head that far arse..',
+        'I\'d like to see things from your point of view but ' +
+            'I can\'t shove my head that far up my arse..',
         'You must have been born on a highway because that\'s where most accidents happen',
         'I\'d slap you, but that would be animal abuse',
         'It\'s scary to think that people like you are allowed to vote',

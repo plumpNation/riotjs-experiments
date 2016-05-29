@@ -1,37 +1,43 @@
+// @flow
+
 'use strict';
 
 const UPDATE  = 'insultUpdate',
     REQUESTED = 'insultRequested',
     RECEIVED  = 'insultReceived',
 
-    InsultSource = require('../sources/insult-source'),
-    InsultStore  = require('../stores/insult-store'),
+    InsultService = require('../lib/insult-service'),
 
     requestInsult = function () {
         return {
-            type: REQUESTED
+            type: REQUESTED,
+            body: null,
+            receivedAt: null,
+            fetching: true
         };
     },
 
     receiveInsult = function (insult) {
         return {
             type: RECEIVED,
-            receivedAt: Date.now()
+            body: insult,
+            receivedAt: Date.now(),
+            fetching: false
         };
     },
 
-    fetchInsults = () => {
-        return dispatch => {
-            InsultStore.dispatch(requestInsult());
+    fetchInsult = () => {
+        return (dispatch) => {
+            dispatch(requestInsult());
 
-            return InsultSource.fetch()
-                .then(insult => InsultStore.dispatch(receiveInsult(insult)));
+            return InsultService.fetch()
+                .then(insult => dispatch(receiveInsult(insult)));
         };
     };
 
 module.exports = {
-    fetchInsults,
+    fetchInsult,
     UPDATE,
     REQUESTED,
-    RECEIEVED
+    RECEIVED
 };

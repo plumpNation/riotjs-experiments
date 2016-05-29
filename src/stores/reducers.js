@@ -4,19 +4,14 @@
 
 const Redux      = require('redux'),
     InsultAction = require('../actions/insult-actions'),
-    insultRaw   = require('../sources/insult-source'),
 
-    insult = (state = '', action) => {
+    insult = (state = {body: null}, action) => {
         switch (action.type) {
             case InsultAction.RECEIVED:
-                console.log('updating');
-
-                return action.insult;
+                return {...state, ...action};
 
             case InsultAction.REQUESTED:
-                console.log('fetching');
-
-                return null;
+                return {...state, ...action};
 
             default:
                 return state;

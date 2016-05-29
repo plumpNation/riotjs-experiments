@@ -11,7 +11,7 @@
             InsultAction  = require('../actions/insult-actions'),
 
             fetchInsult = () => {
-                InsultStore.dispatch(InsultAction.fetchInsults());
+                InsultStore.dispatch(InsultAction.fetchInsult());
             };
 
         fetchInsult();
